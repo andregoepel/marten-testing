@@ -11,21 +11,12 @@
   <ItemGroup Label="Testing">
     <PackageVersion Include="coverlet.collector" Version="10.0.1" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.8.1" />
-    <PackageVersion Include="Testcontainers.PostgreSql" Version="4.13.0" />
+    <PackageVersion Include="Testcontainers.PostgreSql" Version="4.14.0" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />
     <PackageVersion Include="xunit.v3" Version="3.2.2" />
     <!-- The src package only needs the extensibility surface (IAsyncLifetime,
          ICollectionFixture<T>, [CollectionDefinition]) — the full xunit.v3 package pulls in
          the test-runner entrypoint and requires OutputType=Exe, which a class library isn't. -->
     <PackageVersion Include="xunit.v3.extensibility.core" Version="3.2.2" />
-  </ItemGroup>
-
-  <ItemGroup Label="Transitive pins">
-    <!-- Testcontainers 4.13.0 still pulls SSH.NET 2025.1.0, which carries
-         GHSA-q939-rpr3-3284 (high, ScpClient recursive download path traversal)
-         and so fails restore under NU1903. Pinned forward to the patched
-         2026.0.0 via CentralPackageTransitivePinningEnabled. Remove once
-         Testcontainers references 2026.0.0 or later itself — tracked in #8. -->
-    <PackageVersion Include="SSH.NET" Version="2026.0.0" />
   </ItemGroup>
 </Project>
