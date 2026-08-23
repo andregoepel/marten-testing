@@ -41,6 +41,17 @@ public sealed class MyStoreTests(MartenFixture fixture) : IAsyncLifetime
 
 `ResetAsync` wipes documents between tests without dropping the schema, so it belongs in `InitializeAsync`, not `DisposeAsync` — rebuilding the schema per test is the slow part this design avoids.
 
+## Pointing a second consumer at the same database
+
+`ConnectionString` exposes the container's connection string, so an app under test can boot its own Marten against the very database `Store` reads and writes — no second container, and no direct `Testcontainers.PostgreSql` reference in the consuming repo:
+
+```csharp
+protected override void ConfigureWebHost(IWebHostBuilder builder) =>
+    builder.UseSetting("ConnectionStrings:Postgres", fixture.ConnectionString);
+```
+
+It throws `InvalidOperationException` before `InitializeAsync` has run — there is no container to ask yet.
+
 ## Extending the fixture
 
 Some consumers need more than a vanilla store — `marten-identity`'s fixture calls `opts.InitializeIdentity()` and resolves an `ISettingsStore` once the store is built; a future consumer might need projections or its own settings documents.

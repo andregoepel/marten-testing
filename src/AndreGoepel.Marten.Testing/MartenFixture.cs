@@ -29,6 +29,21 @@ public class MartenFixture : IAsyncLifetime
 
     public IDocumentStore Store { get; private set; } = null!;
 
+    /// <summary>
+    /// Connection string of the fixture's Postgres container, for tests that need to point a
+    /// second consumer — typically a <c>WebApplicationFactory</c>-hosted app booting its own
+    /// Marten — at the same database <see cref="Store"/> uses.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">
+    /// The container hasn't been started yet, i.e. <see cref="InitializeAsync"/> hasn't run.
+    /// </exception>
+    public string ConnectionString =>
+        _container is null
+            ? throw new InvalidOperationException(
+                $"The Postgres container isn't running yet — {nameof(ConnectionString)} is only available after {nameof(InitializeAsync)} has completed."
+            )
+            : _container.GetConnectionString();
+
     public async ValueTask InitializeAsync()
     {
         _container = new PostgreSqlBuilder(PostgresImage).Build();
