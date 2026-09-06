@@ -10,12 +10,12 @@
       },
       "Marten": {
         "type": "Direct",
-        "requested": "[9.31.2, )",
-        "resolved": "9.31.2",
-        "contentHash": "ijcqfbEhU5k4BMfNazMFVtzLph8DmEhVn2O5kJzPYb5ScYnyRyIXJZRPrd84v8JyrT1W+k1F4NARb0gesy2dfA==",
+        "requested": "[9.32.0, )",
+        "resolved": "9.32.0",
+        "contentHash": "Oh/GozVydcJLwD1LVjKUYZIYkY8jTk+id4ukXwQcxhxQ067Uxy7RJWGW1jos1gjcMegBJ/0f800viCnqr/ttXg==",
         "dependencies": {
-          "JasperFx": "2.61.0",
-          "JasperFx.Events": "2.61.0",
+          "JasperFx": "2.63.0",
+          "JasperFx.Events": "2.63.0",
           "Microsoft.Extensions.Hosting.Abstractions": "10.0.0",
           "Microsoft.IO.RecyclableMemoryStream": "3.0.1",
           "Weasel.Postgresql": "9.29.0",
@@ -139,8 +139,8 @@
       },
       "JasperFx": {
         "type": "Transitive",
-        "resolved": "2.61.0",
-        "contentHash": "AL1hUTCPQTbOcapZUaW5dhh0ZilpnV7xcayAuDDnUld/iBpgCcQeH32TGIrZnGOeqNKjxYgxLnW9OVd2E/QBEg==",
+        "resolved": "2.63.0",
+        "contentHash": "Kj/dVlb9Dlxlbee+x7TbcjiZX5bdi6ZYMOH4UqeqWZzgpY2TRkGwiLNlAruMSa4gx0pltCk1NE17eZd60cNeEw==",
         "dependencies": {
           "FastExpressionCompiler": "5.4.1",
           "ImTools": "4.0.0",
@@ -155,10 +155,10 @@
       },
       "JasperFx.Events": {
         "type": "Transitive",
-        "resolved": "2.61.0",
-        "contentHash": "Xmk8DDMBAev9rdOMQUbEmn4VSIwaT8z8W0RJdlwqQNdLbi8drMJXKd9x2YZ6nIjlCpDPxxVX7Q1GljSsrtOX4g==",
+        "resolved": "2.63.0",
+        "contentHash": "O22lNcY5uCiql0CrNpVksTnwBoNJIHQid7ZFQnz1DlUa9MW12KPMiKLh6N1nCYsa+oy7jxMg2+L9AJ5saY7vxg==",
         "dependencies": {
-          "JasperFx": "2.61.0"
+          "JasperFx": "2.63.0"
         }
       },
       "Microsoft.ApplicationInsights": {
@@ -700,7 +700,7 @@
       "andregoepel.marten.testing": {
         "type": "Project",
         "dependencies": {
-          "Marten": "[9.31.2, )",
+          "Marten": "[9.32.0, )",
           "Testcontainers.PostgreSql": "[4.14.0, )",
           "xunit.v3.extensibility.core": "[4.0.0, )"
         }
