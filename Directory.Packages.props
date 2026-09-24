@@ -5,18 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup Label="Marten">
-    <PackageVersion Include="Marten" Version="9.33.0" />
+    <PackageVersion Include="Marten" Version="9.39.0" />
   </ItemGroup>
 
   <ItemGroup Label="Testing">
     <PackageVersion Include="coverlet.collector" Version="10.0.1" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.10.0" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.10.1" />
     <PackageVersion Include="Testcontainers.PostgreSql" Version="4.15.0" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="4.0.0" />
-    <PackageVersion Include="xunit.v3" Version="4.0.0" />
+    <PackageVersion Include="xunit.v3" Version="4.0.1" />
     <!-- The src package only needs the extensibility surface (IAsyncLifetime,
          ICollectionFixture<T>, [CollectionDefinition]) — the full xunit.v3 package pulls in
          the test-runner entrypoint and requires OutputType=Exe, which a class library isn't. -->
-    <PackageVersion Include="xunit.v3.extensibility.core" Version="4.0.0" />
+    <PackageVersion Include="xunit.v3.extensibility.core" Version="4.0.1" />
   </ItemGroup>
 </Project>
