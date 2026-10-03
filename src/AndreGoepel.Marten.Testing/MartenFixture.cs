@@ -23,7 +23,7 @@ public class MartenFixture : IAsyncLifetime
     // be fed a different image behind the same tag. Bump this to update the Postgres version
     // for every consumer at once — that lockstep bump is the whole reason this package exists.
     public const string PostgresImage =
-        "postgres:16-alpine@sha256:e013e867e712fec275706a6c51c966f0bb0c93cfa8f51000f85a15f9865a28cb";
+        "postgres:16.15-alpine@sha256:721873c34ceb9f8d8fc265984940dc982404c105f19ad51be9fdc5970a6080ea";
 
     private PostgreSqlContainer _container = null!;
 
