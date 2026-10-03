@@ -99,7 +99,7 @@ public sealed class IntegrationCollection : ICollectionFixture<IdentityMartenFix
 
 ## Postgres version
 
-The pinned image digest lives in `MartenFixture.PostgresImage` (currently `postgres:16-alpine@...`). Bump it in one place to move every consumer to a new Postgres version at once — that lockstep bump is the reason this package exists instead of two hand-copied fixtures.
+The pinned image digest lives in `MartenFixture.PostgresImage` (currently `postgres:16.15-alpine@...`). Bump it in one place to move every consumer to a new Postgres version at once — that lockstep bump is the reason this package exists instead of two hand-copied fixtures.
 
 ## Requirements
 
