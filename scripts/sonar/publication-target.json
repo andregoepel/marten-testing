@@ -1,0 +1,8 @@
+{
+  "repository": "andregoepel/marten-testing",
+  "readinessWorkflowId": 0,
+  "packages": [
+    "AndreGoepel.Marten.Testing"
+  ],
+  "verifierRevision": "752a04b788fd1cdb41e810ab62c184fe141d240a"
+}

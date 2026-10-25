@@ -63,6 +63,7 @@ public class MartenFixture : IAsyncLifetime
     {
         await Store.DisposeAsync();
         await _container.DisposeAsync();
+        GC.SuppressFinalize(this);
     }
 
     /// <summary>
