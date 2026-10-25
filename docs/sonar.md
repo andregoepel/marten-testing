@@ -11,11 +11,12 @@ bypass is disabled. Both scoped credentials have been verified from the hosted
 runner. The explicitly approved SPECIFIC_ANALYSIS baseline is recorded in
 main-policy.json and in the acceptance record below.
 
-The real NuGet publisher remains unconditionally disabled. The three no-upload
-test jobs require a separate repository switch, which is off until approved
-execution. The existing v* tag publisher remains active and outside Sonar
-enforcement until its separately reviewed retirement. Use only the strictly
-scoped non-release acceptance tags after authorization; never use v* test tags.
+The legacy CI publisher is removed from this standby revision. CI still builds,
+tests and audits main, pull requests and v* tags. NuGet preparation now selects
+production v* tags, but both preparation and the real publisher have unconditional
+false job guards. Merging this revision deliberately pauses publication until a
+separate approved activation. The two unchanged no-upload workflows remain behind
+the absent test switch; acceptance tags no longer trigger preparation here.
 Baseline approval does not activate publishing or complete the migration.
 
 One production library and one PostgreSQL-backed test project (5 tests).
@@ -94,35 +95,39 @@ on the CI runner, not in the Sonar service.
 
 ## NuGet preparation and migration
 
-See [the bundled no-upload procedure and migration proposal](nuget-acceptance.md).
-The registered preparation/readiness IDs and exact preparation hash are bound.
-Rehearsal, acceptance-tag preparation and the no-upload consumer require the
-repository test switch, which remains off until explicit execution approval.
-The real publisher retains its unconditional false job guard and uses official
-NuGet/login plus native dotnet nuget push only after a later approved activation.
+See [the standby migration and completed no-upload evidence](nuget-acceptance.md).
+The registered workflow IDs remain unchanged. nuget-policy.json binds the exact
+production preparation bytes, while main-policy.json binds the CI workflow after
+legacy-publisher removal. The existing CI build/test steps and shared runner pin
+are unchanged; Sonar baselines, gates and profiles are unchanged.
 
-The existing `ci.yml` tag publisher remains unchanged and can bypass Sonar.
-No-upload acceptance, exclusive package policy, production environments, tag
-protection and reviewed legacy-publisher retirement must precede activation.
-No tag, credential transfer, policy migration or release is authorized by this
-preparation. Keep one bundled review PR per repository where dependencies permit.
+The protected rehearsal and tagged no-upload handoff passed before this standby
+change. Temporary environments, token copies, tags and switches were removed.
+That evidence proves simulated package/symbol handling, not a real publication.
+The retained acceptance consumer rejects production tags and cannot consume this
+revision's production preparation. Do not recreate the old test setup on this
+revision or use a release tag as a test.
+
+Exclusive package policy migration, protected production environments and release
+tag protection still require separate approval. Keep preparation and publication
+disabled until those controls and post-merge main CI/Sonar checks pass. A later
+activation must update the preparation hash again. Any actual release needs its
+own explicit version/commit approval and fresh evidence.
 
 ## Rollback and evidence
 
-Keep the real NuGet publisher disabled and existing routes intact until their separately
-approved migration. If central analysis needs rollback, suspend new gate jobs and
-retain evidence while proposing a coordinated rollback through a PR. Do not restore
-a bypass publisher as an automatic fallback, revive revoked tokens, change accepted
-baselines or retry an uncertain
-upload. Preserve intent/outcome artifacts and verify NuGet package/symbol status
-before any separately authorized recovery.
+Keep preparation and publication disabled if migration or verification fails.
+Retain evidence and propose a coordinated fix through a PR. Do not restore the
+legacy publisher as a fallback, weaken the gate, reset accepted baselines or retry
+an uncertain upload. Preserve intent/outcome records and verify package/symbol
+status before any separately authorized recovery.
 
-The CI SDK-selection edits keep existing build/publish jobs aligned with global.json;
-they do not change tag triggers, package scope, credentials or upload behavior.
 No dedicated E2E host exists in this repository; PostgreSQL integration tests are
-mandatory and were included in the complete first central analysis. Baseline
-approval, two readiness sets and nonempty new-code checks are complete; production policy
-migration and publishing acceptance remain open.
+mandatory. Local Sonar verifies review branches on the separate prototype;
+protected central readiness verifies the exact main commit after merge.
+Baseline approval, two readiness sets, nonempty new-code coverage and protected
+no-upload checks are complete. Production controls and rollout acceptance remain
+open. External evidence storage remains deferred.
 
 ## Accepted initial baseline
 
