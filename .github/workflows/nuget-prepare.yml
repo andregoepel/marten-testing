@@ -1,10 +1,10 @@
-# Standby: job is unconditionally disabled. Activation requires reviewed registration and policy.
-# Preparation workflow ID is deliberately unbound (0) until registration.
+# Registered preparation workflow: 395675685 (NuGet preparation).
+# Acceptance tags only; the repository switch is off until an approved test.
 name: NuGet preparation
 
 on:
   push:
-    tags: ["v*"]
+    tags: ["sonar-poc/nuget/*/v*"]
 
 permissions:
   contents: read
@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   prepare:
-    if: ${{ false && github.repository == 'andregoepel/marten-testing' && github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') }}
+    if: ${{ vars.SONAR_NUGET_ACCEPTANCE_ENABLED == 'true' && github.repository == 'andregoepel/marten-testing' && github.event_name == 'push' && startsWith(github.ref, 'refs/tags/sonar-poc/nuget/') }}
     runs-on: ubuntu-24.04
     environment: sonar-nuget-prepare
     timeout-minutes: 75
@@ -38,8 +38,8 @@ jobs:
           test "$GITHUB_WORKFLOW_SHA" = "$GITHUB_SHA"
           test "$GITHUB_WORKFLOW_REF" = "$GITHUB_REPOSITORY/.github/workflows/nuget-prepare.yml@$GITHUB_REF"
           [[ "$GITHUB_SHA" =~ ^[a-f0-9]{40}$ ]]
-          [[ "$GITHUB_REF_NAME" =~ ^v(0|[1-9][0-9]{0,4})\.(0|[1-9][0-9]{0,4})\.(0|[1-9][0-9]{0,4})$ ]]
-          version="${GITHUB_REF_NAME#v}"
+          [[ "$GITHUB_REF_NAME" =~ ^sonar-poc/nuget/[a-f0-9]{32}/v(0|[1-9][0-9]{0,4})\.(0|[1-9][0-9]{0,4})\.(0|[1-9][0-9]{0,4})$ ]]
+          version="${GITHUB_REF_NAME##*/v}"
           jq -e --arg ref "$GITHUB_REF" '
             .repository.full_name == "andregoepel/marten-testing" and
             .ref == $ref and .created == true and .deleted == false and .forced == false and
@@ -48,7 +48,7 @@ jobs:
           ' "$GITHUB_EVENT_PATH" > /dev/null
           main_sha=$(gh api repos/andregoepel/marten-testing/git/ref/heads/main --jq '.object.sha')
           test "$main_sha" = "$GITHUB_SHA"
-          readiness_run=$(gh api --method GET repos/andregoepel/marten-testing/actions/workflows/0/runs \
+          readiness_run=$(gh api --method GET repos/andregoepel/marten-testing/actions/workflows/395675689/runs \
             -f branch=main -f event=workflow_run -f head_sha="$GITHUB_SHA" -f per_page=100 \
             --jq '.workflow_runs | if length > 0 then max_by(.id).id else error("No main readiness run") end')
           [[ "$readiness_run" =~ ^[1-9][0-9]*$ ]]

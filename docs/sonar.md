@@ -11,11 +11,12 @@ bypass is disabled. Both scoped credentials have been verified from the hosted
 runner. The explicitly approved SPECIFIC_ANALYSIS baseline is recorded in
 main-policy.json and in the acceptance record below.
 
-All four NuGet preparation/publication/rehearsal/acceptance jobs remain
-unconditionally disabled. The existing tag publisher remains active and outside
-Sonar enforcement until its separately reviewed retirement. Do not create a tag
-as a test: the existing publisher would execute. Baseline approval does not
-activate publishing or complete the NuGet gate migration.
+The real NuGet publisher remains unconditionally disabled. The three no-upload
+test jobs require a separate repository switch, which is off until approved
+execution. The existing v* tag publisher remains active and outside Sonar
+enforcement until its separately reviewed retirement. Use only the strictly
+scoped non-release acceptance tags after authorization; never use v* test tags.
+Baseline approval does not activate publishing or complete the migration.
 
 One production library and one PostgreSQL-backed test project (5 tests).
 
@@ -71,8 +72,8 @@ stay ignored. A unique run name preserves earlier evidence.
    SONAR_VERIFY_TOKEN belong there; do not add fallback secrets or inheritance.
 3. Verify the registered Sonar workflow identity, exact CI file hash, pinned shared
    CI identity where applicable, mandatory job names and every required step.
-   The Sonar readiness ID is already bound in publication-target.json. Zero NuGet
-   preparation IDs still denote unregistered/inactive routes, never wildcards.
+   The Sonar readiness ID is bound in publication-target.json. NuGet preparation
+   is bound to its registered ID and exact workflow hash in nuget-policy.json.
 4. Preserve the accepted baseline ID below. Before approving any full analysis,
    require successful fresh CI for the exact current main commit, an empty central
    queue, healthy services and the reviewed resource headroom. Run planned scans
@@ -93,48 +94,22 @@ on the CI runner, not in the Sonar service.
 
 ## NuGet preparation and migration
 
-The complete production templates and no-upload rehearsal/acceptance templates
-are adapted from the accepted Core gate. Package inventory is exactly AndreGoepel.Marten.Testing,
-with both .nupkg and .snupkg. Publication uses official NuGet/login and native
-dotnet nuget push only after verified preparation, fresh exact-main readiness,
-matching package/source hashes and a preserved immutable publication intent.
-Packages and symbols are pushed separately; ambiguous outcomes never authorize
-an automatic retry. The completed Core symbol-recovery entry point is not copied.
+See [the bundled no-upload procedure and migration proposal](nuget-acceptance.md).
+The registered preparation/readiness IDs and exact preparation hash are bound.
+Rehearsal, acceptance-tag preparation and the no-upload consumer require the
+repository test switch, which remains off until explicit execution approval.
+The real publisher retains its unconditional false job guard and uses official
+NuGet/login plus native dotnet nuget push only after a later approved activation.
 
-Before enabling anything:
-
-1. Register/bind the real preparation and readiness workflow IDs, refresh the
-   SHA-256 of the exact preparation workflow in nuget-policy.json, and review the
-   complete exact-commit policy. Recalculate that hash after every preparation
-   workflow edit, including later trigger/guard changes.
-2. Audit package owners, Trusted Publisher policies and alternative API-key scopes
-   read-only. The current ci.yml route remains authoritative and can bypass Sonar;
-   these standby files alone do not enforce publication.
-3. Run the protected no-upload rehearsal on fresh main evidence. Use temporary
-   restricted test environments and non-release tags only in a separately reviewed
-   tag-test scope. The current preparation trigger admits v* only, so the test
-   trigger needs a reviewed adjustment before any tag drill. Never allow the real
-   publisher to handle a test tag. Verify missing/failed/pending/stale/wrong-SHA or
-   wrong-policy evidence, changed manifests/packages, intent and one-shot rules.
-4. Review legacy-publisher removal and the concrete package-to-policy migration
-   together. Configure sonar-nuget-prepare (v* tags) and nuget-publish (main) with
-   required review, self-approval and no administrator bypass. Use scoped secrets
-   and an exclusive policy for this repository's nuget-publish.yml/environment.
-   Review alternative keys/routes and test tag immutability before applying it.
-   The supplied ruleset JSON is disabled and is a proposal, not an applied rule.
-5. Activate preparation/publication only with separate operator approval. Obtain
-   fresh CI/Sonar for the exact release commit, then seek explicit version/tag/release
-   approval. A skipped standby run, local scan or no-upload result is not proof of
-   a production publication. App-foundation and other repositories are unaffected.
-
-Keep one review PR per repository for this preparation. Consolidate post-merge
-registration, accepted baseline binding and migration changes where dependencies
-permit. A second repository does not need a release of the first just to onboard
-Sonar. Keep the issues open through verified central and migration acceptance.
+The existing `ci.yml` tag publisher remains unchanged and can bypass Sonar.
+No-upload acceptance, exclusive package policy, production environments, tag
+protection and reviewed legacy-publisher retirement must precede activation.
+No tag, credential transfer, policy migration or release is authorized by this
+preparation. Keep one bundled review PR per repository where dependencies permit.
 
 ## Rollback and evidence
 
-Keep all NuGet standby guards and existing routes intact until their separately
+Keep the real NuGet publisher disabled and existing routes intact until their separately
 approved migration. If central analysis needs rollback, suspend new gate jobs and
 retain evidence while proposing a coordinated rollback through a PR. Do not restore
 a bypass publisher as an automatic fallback, revive revoked tokens, change accepted
@@ -146,7 +121,7 @@ The CI SDK-selection edits keep existing build/publish jobs aligned with global.
 they do not change tag triggers, package scope, credentials or upload behavior.
 No dedicated E2E host exists in this repository; PostgreSQL integration tests are
 mandatory and were included in the complete first central analysis. Baseline
-approval is complete; subsequent readiness/new-code checks, production policy
+approval, two readiness sets and nonempty new-code checks are complete; production policy
 migration and publishing acceptance remain open.
 
 ## Accepted initial baseline
@@ -182,9 +157,9 @@ baseline does not retroactively create readiness or prove new-code conditions.
 The policy binding must reach main before the subsequent analyses can verify it.
 
 Two successful exact-main CI/Sonar readiness sets are recorded in the tracking
-issue. They had zero new production lines. Keep nonempty new-code coverage,
-scoped failure/recovery and NuGet migration acceptance open until their evidence
-is complete.
+issue. Those first sets had zero new production lines. Subsequent main verification
+now proves nonempty new-code coverage; the linked no-upload runbook records it
+and the remaining local-versus-hosted failure/recovery boundary.
 
 Resource observations found no sampled health, restart, OOM or headroom incident.
 They do not establish peak or concurrent capacity: both processing tasks lasted
@@ -199,5 +174,6 @@ global defaults were unchanged; no other repository or Action was edited.
 See [the acceptance procedure](sonar-acceptance.md). It combines covered production
 argument/lifecycle guards with a reproducible local clean/failure/recovery drill.
 The drill uses the pinned shared runner and an isolated source snapshot; no Action,
-central policy, baseline or publication setting changes. Central acceptance still
-requires the reviewed production/test changes to reach main.
+central policy, baseline or publication setting changes. The production/test changes
+are merged and their central nonempty new-code coverage is verified in the tracking
+issue. Operator acceptance and NuGet enforcement remain separate.
