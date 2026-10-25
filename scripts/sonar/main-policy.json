@@ -42,7 +42,170 @@
       "error": "100"
     }
   ],
-  "profiles": [],
+  "profiles": [
+    {
+      "language": "azureresourcemanager",
+      "name": "Marten Library 1.0.0",
+      "activeRuleCount": 27,
+      "rulesUpdatedAt": "2026-10-25T13:48:34+08:00"
+    },
+    {
+      "language": "cloudformation",
+      "name": "Marten Library 1.0.0",
+      "activeRuleCount": 22,
+      "rulesUpdatedAt": "2026-10-25T13:48:34+08:00"
+    },
+    {
+      "language": "cs",
+      "name": "Marten Library 1.0.0",
+      "activeRuleCount": 121,
+      "rulesUpdatedAt": "2026-10-25T13:48:34+08:00"
+    },
+    {
+      "language": "css",
+      "name": "Marten Library 1.0.0",
+      "activeRuleCount": 25,
+      "rulesUpdatedAt": "2026-10-25T13:48:35+08:00"
+    },
+    {
+      "language": "docker",
+      "name": "Marten Library 1.0.0",
+      "activeRuleCount": 18,
+      "rulesUpdatedAt": "2026-10-25T13:48:35+08:00"
+    },
+    {
+      "language": "flex",
+      "name": "Marten Library 1.0.0",
+      "activeRuleCount": 11,
+      "rulesUpdatedAt": "2026-10-25T13:48:35+08:00"
+    },
+    {
+      "language": "go",
+      "name": "Marten Library 1.0.0",
+      "activeRuleCount": 6,
+      "rulesUpdatedAt": "2026-10-25T13:48:36+08:00"
+    },
+    {
+      "language": "ipynb",
+      "name": "Marten Library 1.0.0",
+      "activeRuleCount": 230,
+      "rulesUpdatedAt": "2026-10-25T13:48:36+08:00"
+    },
+    {
+      "language": "java",
+      "name": "Marten Library 1.0.0",
+      "activeRuleCount": 274,
+      "rulesUpdatedAt": "2026-10-25T13:48:37+08:00"
+    },
+    {
+      "language": "js",
+      "name": "Marten Library 1.0.0",
+      "activeRuleCount": 199,
+      "rulesUpdatedAt": "2026-10-25T13:48:38+08:00"
+    },
+    {
+      "language": "json",
+      "name": "Marten Library 1.0.0",
+      "activeRuleCount": 0,
+      "rulesUpdatedAt": "2026-10-25T13:48:38+08:00"
+    },
+    {
+      "language": "jsp",
+      "name": "Marten Library 1.0.0",
+      "activeRuleCount": 0,
+      "rulesUpdatedAt": "2026-10-25T13:48:38+08:00"
+    },
+    {
+      "language": "kotlin",
+      "name": "Marten Library 1.0.0",
+      "activeRuleCount": 54,
+      "rulesUpdatedAt": "2026-10-25T13:48:38+08:00"
+    },
+    {
+      "language": "kubernetes",
+      "name": "Marten Library 1.0.0",
+      "activeRuleCount": 18,
+      "rulesUpdatedAt": "2026-10-25T13:48:39+08:00"
+    },
+    {
+      "language": "php",
+      "name": "Marten Library 1.0.0",
+      "activeRuleCount": 78,
+      "rulesUpdatedAt": "2026-10-25T13:48:39+08:00"
+    },
+    {
+      "language": "py",
+      "name": "Marten Library 1.0.0",
+      "activeRuleCount": 232,
+      "rulesUpdatedAt": "2026-10-25T13:48:39+08:00"
+    },
+    {
+      "language": "ruby",
+      "name": "Marten Library 1.0.0",
+      "activeRuleCount": 9,
+      "rulesUpdatedAt": "2026-10-25T13:48:40+08:00"
+    },
+    {
+      "language": "rust",
+      "name": "Marten Library 1.0.0",
+      "activeRuleCount": 58,
+      "rulesUpdatedAt": "2026-10-25T13:48:40+08:00"
+    },
+    {
+      "language": "scala",
+      "name": "Marten Library 1.0.0",
+      "activeRuleCount": 8,
+      "rulesUpdatedAt": "2026-10-25T13:48:41+08:00"
+    },
+    {
+      "language": "secrets",
+      "name": "Marten Library 1.0.0",
+      "activeRuleCount": 30,
+      "rulesUpdatedAt": "2026-10-25T13:48:41+08:00"
+    },
+    {
+      "language": "terraform",
+      "name": "Marten Library 1.0.0",
+      "activeRuleCount": 49,
+      "rulesUpdatedAt": "2026-10-25T13:48:41+08:00"
+    },
+    {
+      "language": "text",
+      "name": "Marten Library 1.0.0",
+      "activeRuleCount": 3,
+      "rulesUpdatedAt": "2026-10-25T13:48:41+08:00"
+    },
+    {
+      "language": "ts",
+      "name": "Marten Library 1.0.0",
+      "activeRuleCount": 198,
+      "rulesUpdatedAt": "2026-10-25T13:48:42+08:00"
+    },
+    {
+      "language": "vbnet",
+      "name": "Marten Library 1.0.0",
+      "activeRuleCount": 55,
+      "rulesUpdatedAt": "2026-10-25T13:48:42+08:00"
+    },
+    {
+      "language": "web",
+      "name": "Marten Library 1.0.0",
+      "activeRuleCount": 34,
+      "rulesUpdatedAt": "2026-10-25T13:48:43+08:00"
+    },
+    {
+      "language": "xml",
+      "name": "Marten Library 1.0.0",
+      "activeRuleCount": 20,
+      "rulesUpdatedAt": "2026-10-25T13:48:43+08:00"
+    },
+    {
+      "language": "yaml",
+      "name": "Marten Library 1.0.0",
+      "activeRuleCount": 0,
+      "rulesUpdatedAt": "2026-10-25T13:48:43+08:00"
+    }
+  ],
   "workflows": [
     {
       "id": 320679895,
