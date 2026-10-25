@@ -73,6 +73,13 @@ public class MartenFixture : IAsyncLifetime
     /// </summary>
     public virtual async Task ResetAsync(CancellationToken cancellationToken = default)
     {
+        if (Store is null)
+        {
+            throw new InvalidOperationException(
+                $"Call {nameof(InitializeAsync)} before {nameof(ResetAsync)}."
+            );
+        }
+
         await Store.Advanced.Clean.DeleteAllDocumentsAsync(cancellationToken);
     }
 

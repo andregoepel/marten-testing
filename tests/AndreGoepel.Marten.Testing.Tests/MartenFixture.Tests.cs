@@ -76,6 +76,22 @@ public sealed class MartenFixtureTests(MartenFixture fixture)
     }
 
     [Fact]
+    public async Task ResetAsync_StoreNotInitialized_Throws()
+    {
+        // Arrange
+        var uninitialized = new MartenFixture();
+
+        // Act
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            uninitialized.ResetAsync(Ct)
+        );
+
+        // Assert
+        Assert.Contains(nameof(MartenFixture.InitializeAsync), exception.Message);
+        Assert.Contains(nameof(MartenFixture.ResetAsync), exception.Message);
+    }
+
+    [Fact]
     public void ConnectionString_ContainerNotStarted_Throws()
     {
         // Arrange

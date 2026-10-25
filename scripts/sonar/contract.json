@@ -5,7 +5,7 @@
   "gate": "Marten Library 1.0.0",
   "solution": "AndreGoepel.Marten.Testing.slnx",
   "tests": {
-    "AndreGoepel.Marten.Testing.Tests": 4
+    "AndreGoepel.Marten.Testing.Tests": 5
   },
   "coverageAnchors": [
     "src/AndreGoepel.Marten.Testing/MartenFixture.cs"

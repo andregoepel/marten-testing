@@ -17,7 +17,7 @@ Sonar enforcement until its separately reviewed retirement. Do not create a tag
 as a test: the existing publisher would execute. Baseline approval does not
 activate publishing or complete the NuGet gate migration.
 
-One production library and one PostgreSQL-backed test project (4 tests).
+One production library and one PostgreSQL-backed test project (5 tests).
 
 The SDK is selected exactly by global.json (10.0.402); CSharpier 1.3.0 remains the
 formatting authority. Existing test projects already use Microsoft.Testing.Platform.
@@ -77,7 +77,7 @@ stay ignored. A unique run name preserves earlier evidence.
    require successful fresh CI for the exact current main commit, an empty central
    queue, healthy services and the reviewed resource headroom. Run planned scans
    sequentially across repositories.
-5. After this policy binding is merged, obtain two fresh exact-main CI/Sonar sets.
+5. The accepted baseline binding has passed two fresh exact-main CI/Sonar sets.
    Verify task, analysis, commit/run/attempt, full tests/coverage, gate/profile policy
    and the accepted comparison period. Retain meaningful new-code coverage and
    scoped failed-gate/recovery evidence. Do not reset baselines or weaken the gate
@@ -181,10 +181,10 @@ but no readiness artifact was issued and releaseEligible=false. Selecting the
 baseline does not retroactively create readiness or prove new-code conditions.
 The policy binding must reach main before the subsequent analyses can verify it.
 
-After operator review and merge, obtain two fresh successful exact-main CI/Sonar
-readiness sets against this baseline, preserving the protected approval and
-sequential operating limits. Keep new-code coverage, failure/recovery and NuGet
-migration acceptance open until their evidence is complete.
+Two successful exact-main CI/Sonar readiness sets are recorded in the tracking
+issue. They had zero new production lines. Keep nonempty new-code coverage,
+scoped failure/recovery and NuGet migration acceptance open until their evidence
+is complete.
 
 Resource observations found no sampled health, restart, OOM or headroom incident.
 They do not establish peak or concurrent capacity: both processing tasks lasted
@@ -193,3 +193,11 @@ after processing. Do not infer continuous health through that gap. Raw host
 snapshots, analysis summaries, checksums and selection evidence remain in ignored
 local records. Service configuration, other consumer baselines/profiles and
 global defaults were unchanged; no other repository or Action was edited.
+
+## New-code and failure/recovery acceptance
+
+See [the acceptance procedure](sonar-acceptance.md). It combines covered production
+argument/lifecycle guards with a reproducible local clean/failure/recovery drill.
+The drill uses the pinned shared runner and an isolated source snapshot; no Action,
+central policy, baseline or publication setting changes. Central acceptance still
+requires the reviewed production/test changes to reach main.
