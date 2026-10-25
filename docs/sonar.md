@@ -4,18 +4,18 @@ Tracking: [38](https://github.com/andregoepel/marten-testing/issues/38), [rollou
 
 ## Current boundary
 
-The private central project and frozen Marten Library 1.0.0 gate/profiles are
-configured. This follow-up binds the exact profile inventory and registered Sonar
-workflow ID, and removes only the Sonar job's standby guard. Analysis still needs
-SONAR_MAIN_ENABLED=true and operator approval in the main-only sonar-main
-environment. Self-approval is allowed; administrator bypass is disabled. The opt-in
-remains false during preparation, so merging alone does not start an analysis.
+The private central project uses the frozen Marten Library 1.0.0 gate/profiles.
+SONAR_MAIN_ENABLED=true; central analysis requires operator approval in the
+main-only sonar-main environment. Self-approval is allowed and administrator
+bypass is disabled. Both scoped credentials have been verified from the hosted
+runner. The explicitly approved SPECIFIC_ANALYSIS baseline is recorded in
+main-policy.json and in the acceptance record below.
 
 All four NuGet preparation/publication/rehearsal/acceptance jobs remain
 unconditionally disabled. The existing tag publisher remains active and outside
 Sonar enforcement until its separately reviewed retirement. Do not create a tag
-as a test: the existing publisher would execute. No baseline has been selected and
-no production publishing migration or activation is included in this change.
+as a test: the existing publisher would execute. Baseline approval does not
+activate publishing or complete the NuGet gate migration.
 
 One production library and one PostgreSQL-backed test project (4 tests).
 
@@ -60,31 +60,28 @@ change the central project. Inspect every required test project and imported
 coverage in artifacts/sonar/<run>/publish/summary.json. Private scanner reports
 stay ignored. A unique run name preserves earlier evidence.
 
-## Central setup after review
+## Central operating checks
 
-1. Create a separate private marten-testing project with least-privilege analysis and
-   Browse-only verification identities. Retain operator Browse/See Source Code.
-   The reviewed frozen profiles/gate were copied to Marten Library 1.0.0 without
-   editing any existing consumer. Disable the small-change exemption and keep the complete
-   authored source/test inventory. The actual profile names, counts and update
-   times are bound in main-policy.json; retain and verify this exact inventory.
-2. Configure sonar-main with required operator review, self-approval allowed,
-   administrator bypass disabled and main only. Store only the two named Sonar
-   secrets there. Do not add repository-level fallback secrets or inheritance.
-3. Confirm the registered workflow identities and bind their real IDs. Zero IDs in
-   publication-target.json / nuget-policy.json and the templates mean unregistered,
-   never wildcard or an ID borrowed from Core. Verify CI file hash, pinned shared
+1. Keep the project private and retain separate project-analysis and Browse-only
+   verification identities, plus operator Browse/See Source Code. Preserve the
+   exact frozen profile inventory, gate thresholds, disabled small-change exemption
+   and complete authored source/test inventory in main-policy.json.
+2. Keep sonar-main restricted to main, with required operator review, self-approval
+   allowed and no administrator bypass. Only SONAR_SCAN_TOKEN and
+   SONAR_VERIFY_TOKEN belong there; do not add fallback secrets or inheritance.
+3. Verify the registered Sonar workflow identity, exact CI file hash, pinned shared
    CI identity where applicable, mandatory job names and every required step.
-4. Only after those checks, review removal of the Sonar standby guard and set the
-   opt-in switch. Coordinate this first full exact-main analysis with other users
-   of the shared server, measure its representative resource usage, and retain
-   the result as a proposed baseline. A null baseline is deliberate: the shared
-   tool retains a full analysis but refuses readiness until a separately accepted
-   prior SPECIFIC_ANALYSIS baseline is bound.
-5. After baseline approval, obtain two sequential fresh exact-main CI/Sonar sets.
-   Verify tasks, commit/run/attempt, full test/coverage inventory, baseline and gate
-   policy. Retain meaningful new-code coverage and scoped failed-gate/recovery
-   evidence. Never reset a baseline or weaken a gate to make onboarding pass.
+   The Sonar readiness ID is already bound in publication-target.json. Zero NuGet
+   preparation IDs still denote unregistered/inactive routes, never wildcards.
+4. Preserve the accepted baseline ID below. Before approving any full analysis,
+   require successful fresh CI for the exact current main commit, an empty central
+   queue, healthy services and the reviewed resource headroom. Run planned scans
+   sequentially across repositories.
+5. After this policy binding is merged, obtain two fresh exact-main CI/Sonar sets.
+   Verify task, analysis, commit/run/attempt, full tests/coverage, gate/profile policy
+   and the accepted comparison period. Retain meaningful new-code coverage and
+   scoped failed-gate/recovery evidence. Do not reset baselines or weaken the gate
+   to make readiness pass. A baseline analysis cannot issue readiness for itself.
 
 The completed shared capacity measurement supports conservative sequential use,
 not arbitrary database workloads or concurrency. Before each planned scan require
@@ -137,55 +134,62 @@ Sonar. Keep the issues open through verified central and migration acceptance.
 
 ## Rollback and evidence
 
-Before analysis activation, leave the opt-in false and all NuGet standby guards
-and existing routes intact. After a reviewed activation, suspend new gate jobs and
-retain evidence while proposing a
-coordinated rollback through a PR. Do not restore a bypass publisher as an automatic
-fallback, revive revoked tokens, change accepted baselines or retry an uncertain
+Keep all NuGet standby guards and existing routes intact until their separately
+approved migration. If central analysis needs rollback, suspend new gate jobs and
+retain evidence while proposing a coordinated rollback through a PR. Do not restore
+a bypass publisher as an automatic fallback, revive revoked tokens, change accepted
+baselines or retry an uncertain
 upload. Preserve intent/outcome artifacts and verify NuGet package/symbol status
 before any separately authorized recovery.
 
 The CI SDK-selection edits keep existing build/publish jobs aligned with global.json;
 they do not change tag triggers, package scope, credentials or upload behavior.
 No dedicated E2E host exists in this repository; PostgreSQL integration tests are
-mandatory and are included in the complete analysis. Central analysis/baseline
-acceptance, production policy migration and actual publishing remain pending
-after this review PR.
+mandatory and were included in the complete first central analysis. Baseline
+approval is complete; subsequent readiness/new-code checks, production policy
+migration and publishing acceptance remain open.
 
-## Initial baseline review sequence
+## Accepted initial baseline
 
-Central setup was verified on 2026-10-25. The project remains private; the admin
-account has Browse and See Source Code. Separate project analysis and Browse-only
-verification identities passed allowed-access and cross-project denial checks.
-The 27 frozen profiles match the reviewed source rule counts, including 121 C#
-rules. The six gate thresholds and disabled small-change exemption are unchanged.
+André explicitly approved this analysis on 2026-10-25. The project's main branch
+now uses SPECIFIC_ANALYSIS with the exact ID below; independent server readback
+matches the policy. Baseline acceptance is not whole-wave or publication acceptance.
 
-The registered Sonar readiness workflow ID is 395675689, now recorded in
-publication-target.json. NuGet preparation identity/guard registration is still
-pending and must be reviewed together before any no-upload or production activation.
+| Evidence | Accepted value |
+| --- | --- |
+| Analysis ID | e28d64b2-de9e-4bdf-b5c3-2bc47b15411b |
+| Main commit analyzed | f43dd018c36611b7dca0d5bff08693f5fbaeb343 |
+| Main CI | [40167668116, attempt 2](https://github.com/andregoepel/marten-testing/actions/runs/40167668116/attempts/2) — success |
+| Central Sonar run | [40167941826, attempt 1](https://github.com/andregoepel/marten-testing/actions/runs/40167941826/attempts/1) |
+| Tests discovered / passed | 4 / 4, including PostgreSQL tests |
+| Imported source coverage | 100% |
+| Findings / security hotspots | 0 / 0 |
+| Scanner / processing / gate | Exit 0 / SUCCESS with zero warnings / OK |
 
-Main CI [40166592872](https://github.com/andregoepel/marten-testing/actions/runs/40166592872)
-passed on commit 7d05c746751c3a9a13d2ea4b0e8f9844f38c08c7, with publication skipped. This verifies the merged
-preparation only; it is not evidence for a later activation commit or a baseline.
+Every authored production/test project was analyzed. An independent export of the
+exact committed source matched the hosted source fingerprint. The six-condition
+gate, all 27 frozen profile revisions (including 121 C# rules), source coverage
+scope and disabled small-change exemption were verified. Publication was skipped.
+The two first Marten analyses ran sequentially.
 
-1. Merge the reviewed Sonar setup change, then verify CI on that exact new main
-   commit. Keep every NuGet guard and the existing publication route unchanged.
-2. Enable only SONAR_MAIN_ENABLED. Use an existing fresh matching CI completion or
-   request one recorded CI rerun if needed. Require an empty central queue, healthy
-   services and reviewed resource headroom before approving the protected analysis.
-   Run the two Marten projects sequentially and retain representative resource data.
-3. Verify the full source/test inventory, PostgreSQL test execution, imported
-   coverage, task/analysis/commit/run/attempt identity, gate conditions and unchanged
-   profiles. Retain the first successful upload as a baseline candidate. The runner
-   must refuse readiness while baselineAnalysisId is null; an expected baseline
-   guard failure does not prove a scanner failure or authorize a release.
-4. Present the actual analysis ID and results for explicit operator approval. Do
-   not select a baseline merely to make readiness green. Only after approval set
-   SPECIFIC_ANALYSIS on this project and bind the same ID in the reviewed policy.
-5. After that policy is merged, verify two fresh exact-main readiness sets against
-   the selected baseline. Retain the new-code and capacity limits for acceptance.
+The historical Sonar run remains red because its only failed step ended with:
 
-The current baseline candidate is **pending**: no central analysis has run yet.
-Local prototype results cannot substitute for central evidence. No standby workflow
-is bypassed, no GitHub execution context is simulated, and no baseline is silently
-accepted by this setup change.
+> Full analysis retained; a reviewed SPECIFIC_ANALYSIS baseline is still required.
+
+The baseline was still null during that execution. Its summary was preserved,
+but no readiness artifact was issued and releaseEligible=false. Selecting the
+baseline does not retroactively create readiness or prove new-code conditions.
+The policy binding must reach main before the subsequent analyses can verify it.
+
+After operator review and merge, obtain two fresh successful exact-main CI/Sonar
+readiness sets against this baseline, preserving the protected approval and
+sequential operating limits. Keep new-code coverage, failure/recovery and NuGet
+migration acceptance open until their evidence is complete.
+
+Resource observations found no sampled health, restart, OOM or headroom incident.
+They do not establish peak or concurrent capacity: both processing tasks lasted
+less than one second, and the retained cooldown stream has a 17.87-second gap
+after processing. Do not infer continuous health through that gap. Raw host
+snapshots, analysis summaries, checksums and selection evidence remain in ignored
+local records. Service configuration, other consumer baselines/profiles and
+global defaults were unchanged; no other repository or Action was edited.
