@@ -1,5 +1,5 @@
 # Standby: job is unconditionally disabled. Activation requires reviewed registration and policy.
-# Preparation workflow ID is deliberately unbound (0) until registration.
+# Registered preparation workflow: 395675685 (NuGet preparation).
 name: NuGet verified publication
 
 on:
@@ -18,7 +18,7 @@ jobs:
     if: >-
       false &&
       github.repository == 'andregoepel/marten-testing' &&
-      github.event_name == 'workflow_run' && github.event.workflow_run.workflow_id == 0 &&
+      github.event_name == 'workflow_run' && github.event.workflow_run.workflow_id == 395675685 &&
       github.event.workflow_run.event == 'push' && github.event.workflow_run.conclusion == 'success' &&
       startsWith(github.event.workflow_run.head_branch, 'v')
     runs-on: ubuntu-24.04
@@ -53,7 +53,7 @@ jobs:
             .action == "completed" and .repository.full_name == "andregoepel/marten-testing" and
             (.workflow_run | .repository.full_name == "andregoepel/marten-testing" and
               .head_repository.full_name == "andregoepel/marten-testing" and
-              .workflow_id == 0 and .path == ".github/workflows/nuget-prepare.yml" and
+              .workflow_id == 395675685 and .path == ".github/workflows/nuget-prepare.yml" and
               .name == "NuGet preparation" and .event == "push" and
               .status == "completed" and .conclusion == "success" and .head_sha == $sha and
               (.head_branch | test("^v(0|[1-9][0-9]{0,4})\\.(0|[1-9][0-9]{0,4})\\.(0|[1-9][0-9]{0,4})\\z")) and

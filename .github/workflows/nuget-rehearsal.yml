@@ -1,4 +1,4 @@
-# Standby: job is unconditionally disabled. Activation requires reviewed registration and policy.
+# No-upload rehearsal; the repository test switch stays off until explicit approval.
 name: NuGet no-upload rehearsal
 
 on:
@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   rehearse:
-    if: false && github.repository == 'andregoepel/marten-testing' && github.ref == 'refs/heads/main'
+    if: vars.SONAR_NUGET_ACCEPTANCE_ENABLED == 'true' && github.repository == 'andregoepel/marten-testing' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
     environment: sonar-main
     timeout-minutes: 30
@@ -45,7 +45,7 @@ jobs:
           test "$(gh api repos/andregoepel/marten-testing/git/ref/heads/main --jq '.object.sha')" = "$GITHUB_SHA"
           revision=$(jq -er '.verifierRevision' scripts/sonar/publication-target.json)
           [[ "$revision" =~ ^[a-f0-9]{40}$ && "$revision" != 0000000000000000000000000000000000000000 ]]
-          readiness=$(gh api --method GET repos/andregoepel/marten-testing/actions/workflows/0/runs \
+          readiness=$(gh api --method GET repos/andregoepel/marten-testing/actions/workflows/395675689/runs \
             -f branch=main -f event=workflow_run -f head_sha="$GITHUB_SHA" -f per_page=100 \
             --jq '.workflow_runs | if length > 0 then max_by(.id).id else error("No current-main readiness run") end')
           ci=$(gh api --method GET repos/andregoepel/marten-testing/actions/workflows/320679895/runs \
@@ -81,7 +81,10 @@ jobs:
             -c Release --no-restore --no-self-contained -o "$RUNNER_TEMP/marten-testing-rehearsal-verifier"
 
       - name: Exercise outcome recorder offline
-        run: bash scripts/sonar/publication/tests/outcomes.sh
+        run: |
+          bash scripts/sonar/publication/tests/outcomes.sh
+          bash scripts/sonar/publication/tests/outcomes.sh .github/workflows/nuget-acceptance.yml acceptance-outcomes
+          bash scripts/sonar/publication/tests/tagged-handoff.sh
 
       - name: Verify live evidence and prepare local packages
         id: rehearsal
