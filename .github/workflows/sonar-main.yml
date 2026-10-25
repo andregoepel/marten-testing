@@ -1,4 +1,4 @@
-# Standby: job is unconditionally disabled. Activation requires reviewed registration and policy.
+# Central analysis requires the repository opt-in and protected sonar-main approval.
 name: Sonar main readiness
 
 on:
@@ -14,7 +14,6 @@ permissions:
 jobs:
   readiness:
     if: >-
-      false &&
       vars.SONAR_MAIN_ENABLED == 'true' &&
       github.repository == 'andregoepel/marten-testing' &&
       github.event.workflow_run.event == 'push' &&

@@ -4,12 +4,18 @@ Tracking: [38](https://github.com/andregoepel/marten-testing/issues/38), [rollou
 
 ## Current boundary
 
-This is one bundled review change. All five added workflow jobs are unconditionally
-disabled, including analysis and the no-upload rehearsals. No central project,
-credential, baseline, NuGet policy, protected environment or release is created by
-merging this preparation. The existing tag publisher remains active and outside
+The private central project and frozen Marten Library 1.0.0 gate/profiles are
+configured. This follow-up binds the exact profile inventory and registered Sonar
+workflow ID, and removes only the Sonar job's standby guard. Analysis still needs
+SONAR_MAIN_ENABLED=true and operator approval in the main-only sonar-main
+environment. Self-approval is allowed; administrator bypass is disabled. The opt-in
+remains false during preparation, so merging alone does not start an analysis.
+
+All four NuGet preparation/publication/rehearsal/acceptance jobs remain
+unconditionally disabled. The existing tag publisher remains active and outside
 Sonar enforcement until its separately reviewed retirement. Do not create a tag
-as a test: the existing publisher would execute.
+as a test: the existing publisher would execute. No baseline has been selected and
+no production publishing migration or activation is included in this change.
 
 One production library and one PostgreSQL-backed test project (4 tests).
 
@@ -58,10 +64,10 @@ stay ignored. A unique run name preserves earlier evidence.
 
 1. Create a separate private marten-testing project with least-privilege analysis and
    Browse-only verification identities. Retain operator Browse/See Source Code.
-   Copy reviewed frozen profiles/gate to Marten Library 1.0.0 without editing any
-   existing consumer. Disable the small-change exemption and keep the complete
-   authored source/test inventory. Record actual profile names, counts and update
-   times in main-policy.json; its empty profiles array is intentionally unbound.
+   The reviewed frozen profiles/gate were copied to Marten Library 1.0.0 without
+   editing any existing consumer. Disable the small-change exemption and keep the complete
+   authored source/test inventory. The actual profile names, counts and update
+   times are bound in main-policy.json; retain and verify this exact inventory.
 2. Configure sonar-main with required operator review, self-approval allowed,
    administrator bypass disabled and main only. Store only the two named Sonar
    secrets there. Do not add repository-level fallback secrets or inheritance.
@@ -131,8 +137,9 @@ Sonar. Keep the issues open through verified central and migration acceptance.
 
 ## Rollback and evidence
 
-Before activation, leave the standby guards and existing routes intact. After a
-reviewed activation, suspend new gate jobs and retain evidence while proposing a
+Before analysis activation, leave the opt-in false and all NuGet standby guards
+and existing routes intact. After a reviewed activation, suspend new gate jobs and
+retain evidence while proposing a
 coordinated rollback through a PR. Do not restore a bypass publisher as an automatic
 fallback, revive revoked tokens, change accepted baselines or retry an uncertain
 upload. Preserve intent/outcome artifacts and verify NuGet package/symbol status
@@ -141,5 +148,44 @@ before any separately authorized recovery.
 The CI SDK-selection edits keep existing build/publish jobs aligned with global.json;
 they do not change tag triggers, package scope, credentials or upload behavior.
 No dedicated E2E host exists in this repository; PostgreSQL integration tests are
-mandatory and are included in the complete analysis. Central operation, production
-policy migration and actual publishing remain pending after this review PR.
+mandatory and are included in the complete analysis. Central analysis/baseline
+acceptance, production policy migration and actual publishing remain pending
+after this review PR.
+
+## Initial baseline review sequence
+
+Central setup was verified on 2026-10-25. The project remains private; the admin
+account has Browse and See Source Code. Separate project analysis and Browse-only
+verification identities passed allowed-access and cross-project denial checks.
+The 27 frozen profiles match the reviewed source rule counts, including 121 C#
+rules. The six gate thresholds and disabled small-change exemption are unchanged.
+
+The registered Sonar readiness workflow ID is 395675689, now recorded in
+publication-target.json. NuGet preparation identity/guard registration is still
+pending and must be reviewed together before any no-upload or production activation.
+
+Main CI [40166592872](https://github.com/andregoepel/marten-testing/actions/runs/40166592872)
+passed on commit 7d05c746751c3a9a13d2ea4b0e8f9844f38c08c7, with publication skipped. This verifies the merged
+preparation only; it is not evidence for a later activation commit or a baseline.
+
+1. Merge the reviewed Sonar setup change, then verify CI on that exact new main
+   commit. Keep every NuGet guard and the existing publication route unchanged.
+2. Enable only SONAR_MAIN_ENABLED. Use an existing fresh matching CI completion or
+   request one recorded CI rerun if needed. Require an empty central queue, healthy
+   services and reviewed resource headroom before approving the protected analysis.
+   Run the two Marten projects sequentially and retain representative resource data.
+3. Verify the full source/test inventory, PostgreSQL test execution, imported
+   coverage, task/analysis/commit/run/attempt identity, gate conditions and unchanged
+   profiles. Retain the first successful upload as a baseline candidate. The runner
+   must refuse readiness while baselineAnalysisId is null; an expected baseline
+   guard failure does not prove a scanner failure or authorize a release.
+4. Present the actual analysis ID and results for explicit operator approval. Do
+   not select a baseline merely to make readiness green. Only after approval set
+   SPECIFIC_ANALYSIS on this project and bind the same ID in the reviewed policy.
+5. After that policy is merged, verify two fresh exact-main readiness sets against
+   the selected baseline. Retain the new-code and capacity limits for acceptance.
+
+The current baseline candidate is **pending**: no central analysis has run yet.
+Local prototype results cannot substitute for central evidence. No standby workflow
+is bypassed, no GitHub execution context is simulated, and no baseline is silently
+accepted by this setup change.

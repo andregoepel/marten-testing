@@ -1,6 +1,6 @@
 {
   "repository": "andregoepel/marten-testing",
-  "readinessWorkflowId": 0,
+  "readinessWorkflowId": 395675689,
   "packages": [
     "AndreGoepel.Marten.Testing"
   ],
