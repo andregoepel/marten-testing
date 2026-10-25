@@ -1,28 +1,50 @@
-# Protected NuGet no-upload acceptance
+# NuGet standby migration and no-upload acceptance
 
-Preparation for [issue #38](https://github.com/andregoepel/marten-testing/issues/38). This bundles registered workflow bindings, the protected rehearsal, the tagged artifact handoff and their offline regression tests. It does not activate publication, retire the legacy publisher, provision environments, transfer secrets or authorize a tag/release.
+Tracking: [issue #38](https://github.com/andregoepel/marten-testing/issues/38). This revision removes the legacy CI publisher and prepares production tag handling without activating preparation or publishing.
 
-## Workflow state
+## Standby behavior
 
-| Workflow | Registered ID | Role and guard |
+| Workflow | Registered ID | State |
 | --- | --- | --- |
-| Sonar main readiness | 395675689 | Existing main analysis, unchanged |
-| NuGet preparation | 395675685 | Acceptance tags only; test switch required |
-| NuGet no-upload rehearsal | 395675688 | Manual main-only dispatch; test switch required |
-| NuGet acceptance | 395675683 | Exact successful preparation; test switch required |
-| NuGet verified publication | 395675687 | Unconditional false job guard retained |
+| Sonar main readiness | 395675689 | Existing protected main analysis, unchanged |
+| NuGet preparation | 395675685 | Production `v*` trigger; unconditional false job guard |
+| NuGet no-upload rehearsal | 395675688 | Unchanged; absent test switch keeps it inactive |
+| NuGet acceptance | 395675683 | Unchanged; absent test switch; nonrelease test tags only |
+| NuGet verified publication | 395675687 | Unchanged; unconditional false job guard |
 
-All three test jobs require repository variable `SONAR_NUGET_ACCEPTANCE_ENABLED=true`. It was absent during preparation; missing/false skips them. No switch is set by this change. The publisher's only changes bind the registered preparation ID and its header; its disabled job and upload implementation remain unchanged.
+The `pack-and-publish` job is removed from `ci.yml`. Its existing build/test/audit path and triggers are unchanged. A future `v*` tag still runs CI, but this revision cannot prepare or publish packages. Merging this standby change deliberately pauses releases until separately approved activation. Do not create a release tag to test this state.
 
-The preparation trigger accepts only `sonar-poc/nuget/*/v*`, with strict runtime validation of `sonar-poc/nuget/<32 lowercase hex characters>/vX.Y.Z`. Release tags beginning `v` cannot enter this test path. The existing `ci.yml` tag trigger matches `v*` only, so an acceptance tag does not invoke its publisher. Never use a release tag for a test.
+Preparation's future path accepts only strict stable `vX.Y.Z` tags, with no leading zeroes and at most five digits per component. Its event checks preserve original lightweight/annotated push evidence and reject updates, deletion, forced pushes, reruns, a different repository/workflow revision, branch/manual events and a commit that is no longer main. The reviewed verifier still requires fresh successful CI/Sonar and validates the tag object and package handoff.
 
-`nuget-policy.json` binds preparation ID 395675685 and the SHA-256 of its exact LF-normalized workflow bytes. Recalculate this hash after any subsequent preparation edit, including production trigger/guard changes. The existing publication target pins shared tooling to `752a04b788fd1cdb41e810ab62c184fe141d240a` and the repository's actual readiness ID.
+`nuget-policy.json` binds preparation ID 395675685 and the SHA-256 of its exact LF-normalized workflow. `main-policy.json` updates only the CI file fingerprint required by legacy-job removal; mandatory CI steps, shared runner pin, accepted baseline and gate/profile policy remain unchanged. Recalculate the preparation hash again whenever its guard or contents change.
 
-Test jobs have only contents/actions read permissions and no OIDC access, NuGet login action or NuGet upload command. The acceptance job's fixed protocol step names mention login/push, but their implementations reject publication credentials, hash package bytes and read/discard them locally. GitHub evidence artifacts are not NuGet uploads.
+Preparation has contents/actions read permissions and no OIDC or NuGet credential. The unchanged real publisher uses official NuGet/login and native dotnet nuget push only after later activation. The no-upload consumer's login/push step names describe a simulation: it rejects publication credentials, hashes bytes and reads/discards files.
 
-## Offline validation
+## Completed protected no-upload evidence
 
-Run on Linux with Bash, jq, GNU coreutils, awk and a local temporary directory:
+These original-attempt runs verified main `083395da7bf748d237bd6eb179610d7cb5eaaa51` before this standby change:
+
+| Check | Successful run |
+| --- | --- |
+| Main CI | [40183957342, attempt 1](https://github.com/andregoepel/marten-testing/actions/runs/40183957342/attempts/1) |
+| Sonar readiness | [40184021316, attempt 1](https://github.com/andregoepel/marten-testing/actions/runs/40184021316/attempts/1) |
+| Protected rehearsal | [40184705200, attempt 1](https://github.com/andregoepel/marten-testing/actions/runs/40184705200/attempts/1) |
+| Tagged preparation | [40185013636, attempt 1](https://github.com/andregoepel/marten-testing/actions/runs/40185013636/attempts/1) |
+| Protected no-upload consumer | [40185155595, attempt 1](https://github.com/andregoepel/marten-testing/actions/runs/40185155595/attempts/1) |
+
+Main Sonar passed all 5 required tests, including PostgreSQL tests, with 100% overall coverage, zero findings/hotspots and gate OK. New-code coverage was 100% (2/2 executable lines) against the unchanged accepted baseline. Zero new conditions to cover is not a measured branch-coverage percentage.
+
+The rehearsal passed 1,086 pinned verifier tests, 49 workflow/event/credential/recorder cases and four expected pre-preparation rejections. The tagged consumer rejected changed manifest/package bytes, production context, a repeated attempt, changed intent content, changed archive digest and production-verifier invocation. The original evidence passed subsequent positive revalidation.
+
+Origin, batch, intent and outcomes were retained privately and their GitHub archive digests verified. Independent inspection completed before readiness expiry and verified one `AndreGoepel.Marten.Testing.0.0.0.nupkg` and one `.snupkg` simulation: `acceptanceOnly=true`, `outcomesAvailable=true`, `releaseEligible=false`, `authorizesRetry=false`, `remoteAcceptanceVerified=false`. No upload or release occurred; the real publisher was skipped.
+
+Temporary test environments, their approved token copies, the nonrelease test tag and repository switch were removed. Existing protections and package versions were unchanged. The historical test used a lightweight tag and does not prove hosted annotated-tag behavior, NuGet OIDC or remote package/symbol ingestion.
+
+The old procedure is complete and is not executable on this standby revision: preparation no longer accepts `sonar-poc/nuget/*/v*`, and the retained acceptance consumer rejects production tags. Do not re-enable the test switch or recreate temporary environments to bypass this separation. A future hosted test requires its own reviewed plan; a fresh scan cannot retroactively validate an expired handoff.
+
+## Offline verification of this revision
+
+Run with Bash, jq, GNU coreutils and awk:
 
 ```bash
 bash scripts/sonar/publication/tests/tagged-handoff.sh
@@ -30,44 +52,31 @@ bash scripts/sonar/publication/tests/outcomes.sh
 bash scripts/sonar/publication/tests/outcomes.sh .github/workflows/nuget-acceptance.yml acceptance-outcomes
 ```
 
-These tests execute the actual shipped event-check/recorder shell blocks with synthetic inputs and a stub GitHub CLI. They cover original lightweight/annotated tag events, changed/deleted/forced tags, wrong repository/workflow/revision, failed producers, reruns, stale main, production-context rejection, accidental credential channels and recorder failures. No network, Docker socket, credentials, real tags or service mutations are needed. The protected rehearsal also runs the pinned shared verifier's 1,086 offline tests.
+These tests extract the actual shipped workflow event-check/recorder blocks and execute them against synthetic events with a stub GitHub CLI. The updated event tests distinguish production producer/publisher tags from acceptance-consumer tags and cover invalid versions, original tag events, source/provenance, reruns and accidental publication credentials. They never run NuGet/login or a push command. No network, Docker socket, credentials, real tag or service mutation is needed.
 
-## Protected runner procedure after review and merge
+Local Sonar analyzes the review branch on the separate prototype. The unchanged central workflow can verify the new CI/policy binding only after merge on exact main. Historical no-upload evidence is not standing release authorization.
 
-1. Obtain separate authorization for test environments, project-token copies, the test switch, the one non-release tag and cleanup. Do not infer authorization to copy tokens from the earlier `sonar-main` setup approval.
-2. Verify exact merged-main CI/Sonar and live baseline/gate/profiles. Preserve and independently verify source/policy/contract/run/attempt/artifact fingerprints. Complete all tests within the 60-minute readiness and 120-minute CI/preparation windows. Record IDs before any refresh; request at most one CI rerun to produce fresh readiness when needed. Do not duplicate analyses.
-3. Run repositories sequentially. Use the existing protected main-only `sonar-main` environment for the manual rehearsal without changing its protections or secrets. Temporarily create `sonar-nuget-prepare` with tag-only `sonar-poc/nuget/*/v*` access and `sonar-nuget-acceptance` with branch-only `main` access. Require `andregoepel` review, allow self-review for the sole operator and disable administrator bypass. Verify protection readback before tests. Copy only this project's existing scan/verification tokens to explicitly approved destinations; add no NuGet credential.
-4. Enable the test switch only after the protections are verified. Dispatch the rehearsal once on exact main. Require all verifier/recorder/trigger tests, four expected pre-preparation rejections, real PostgreSQL tests and one verified `AndreGoepel.Marten.Testing.0.0.0.nupkg`/`.snupkg` batch. This is no-tag/no-upload evidence, not hosted handoff proof.
-5. Before the tagged test, ensure there is **no previous acceptance workflow run for this exact SHA**, including skipped/failed runs. Both producer and consumer require attempt 1; stored intent requires exactly one consumer run. Never delete run history, rerun a consumer or weaken the invariant to get a green result.
-6. Create one fresh lightweight acceptance tag on verified current main, with a random 32-character lowercase hex identifier and version `0.0.0`. Record the tag object and exact source before pushing. Approve only its matching protected preparation and resulting acceptance deployment. Do not create a GitHub Release or change tag/branch rules.
-7. Require preparation's original event digest, verified source/tests/packages, authenticated origin and immutable batch. Require consumer rejection of a changed manifest and changed package, then successful verification of the original copies. Require the five stored-intent negatives: production context, rerun, changed content hash, changed archive digest and production-verifier invocation. Expected policy exit code 1 and the named boundary are required; crashes/timeouts are not successful negative evidence.
-8. Require stored `acceptance-intent` before simulated login, fresh revalidation before every file, both successful local byte reads and retained `acceptance-outcomes`. Both artifacts must explicitly mark `acceptanceOnly=true`, `authorizesRetry=false` and no verified remote publication. `cli-success` denotes simulation only.
-9. Before expiry, download origin/batch/intent/outcomes, verify archive IDs/digests and invoke the pinned verifier's `--nuget-inspect-acceptance` with the exact candidate, tag/object, preparation/consumer attempts and intent identities. Require `outcomesAvailable=true`, two successful simulated observations and false release/retry/remote-acceptance flags. Retain private evidence and a sanitized result.
-10. Disable the test switch, remove only the recorded test tag and the two temporary environments/token copies under cleanup authorization, and verify no NuGet upload occurred. Preserve `sonar-main`. If expiry, source movement or any failure occurs, stop and retain evidence; a fresh scan cannot retroactively validate an old handoff. Seek a reviewed recovery plan instead of automatic retry.
+## Remaining production migration
 
-This procedure does not claim a hosted annotated-tag test, central fault injection or a real publication. Offline cases cover those boundaries only within their stated scope.
-
-## Package-to-policy migration proposal
-
-| Field | Future exclusive publisher |
+| Field | Proposed exclusive publisher |
 | --- | --- |
 | Exact package | `AndreGoepel.Marten.Testing` |
 | NuGet owner | `andre.goepel` |
 | GitHub owner / repository | `andregoepel` / `marten-testing` |
 | Workflow | `nuget-publish.yml` |
 | Environment | `nuget-publish` |
-| Scope | Push only new package versions, this exact package only |
+| Scope | Push new versions of this exact package only |
 
-The current `ci.yml` route remains unchanged and can publish without Sonar enforcement. Its retirement and the NuGet policy change require a separately reviewed migration; successful no-upload tests do not close that bypass. Keep raw private account audit evidence outside Git.
+The previous read-only audit is retained privately. The existing NuGet policy still names `ci.yml`; this PR does not change it, credentials, live environments or tag rules. Removing the job from this revision does not revoke trust in historical workflow revisions or close every alternate publishing route. Complete the exclusive-route audit and policy migration before activation.
 
-After no-upload acceptance, bundle legacy `pack-and-publish` removal, the production `v*` preparation trigger and updated policy hash in one standby PR where practical. Keep the real publisher disabled. Separately authorize the exact package policy move to the table above, exclusive route audit, production environments and tag-protection drill. Do not broaden package scopes or touch other repositories' policies.
+After review and merge:
 
-Production `sonar-nuget-prepare` must admit `v*` tags only; production `nuget-publish` must admit `main` only. Both require operator review, self-approval allowed and no admin bypass. Test update/deletion rejection on disposable non-release tags before applying the reviewed `v*` immutability rule. The existing ruleset file is a disabled proposal, not a live control.
+1. Verify exact-main CI/Sonar against the unchanged accepted baseline and new CI file hash. Keep preparation and publishing disabled.
+2. Separately authorize the exact package policy move above, remove obsolete/overlapping routes and recheck API-key alternatives. Preserve other packages and repositories.
+3. Separately authorize production environments: `sonar-nuget-prepare` admits `v*` tags only; `nuget-publish` admits `main` only. Require operator review, allow sole-operator self-approval and disable administrator bypass. Credential placement needs explicit destination approval.
+4. Prove update/deletion rejection on disposable nonrelease tags before applying reviewed `v*` tag protection. The ruleset file remains a disabled proposal.
+5. Prepare a separate activation PR only after those controls pass. Remove the approved production guards and bind the changed preparation hash. A real release still requires explicit version/commit/tag approval and fresh CI/Sonar.
 
-Only after those controls pass should a separate approved activation change remove the production guards and bind the new preparation hash. Any real release still needs explicit version/commit/tag authorization and fresh CI/Sonar. Do not reuse the old publisher as fallback or retry an ambiguous package/symbol result. External evidence storage remains deferred; GitHub artifact retention is finite.
+Keep both production jobs disabled if migration or validation fails. Do not restore the old publisher as fallback or retry an ambiguous package/symbol result. Preserve intent/outcome evidence for separately authorized recovery. External evidence storage remains deferred and GitHub artifact retention is finite.
 
-## Sonar acceptance already verified
-
-[Main CI 40180725243](https://github.com/andregoepel/marten-testing/actions/runs/40180725243/attempts/1) and [Sonar 40180784517](https://github.com/andregoepel/marten-testing/actions/runs/40180784517/attempts/1) passed after the covered-guard PR: 5/5 required tests, 100% overall coverage, zero findings/hotspots and **100% new-code coverage (2/2 executable lines)** against the unchanged accepted baseline. Sonar reports zero new conditions to cover; do not claim a measured branch-coverage percentage.
-
-The local coverage-gate failure and exact-source recovery are verified separately. A protected-main gate rejection/recovery has not been exercised. Operator rollout acceptance remains open; historical readiness is not standing release authorization.
+Operator rollout acceptance remains open. Local coverage-gate failure/recovery passed separately; protected-main rejection/recovery has not been exercised. This standby change does not close the tracking issue.
