@@ -1,0 +1,27 @@
+# Standby: job is unconditionally disabled. Activation requires reviewed registration and policy.
+name: Sonar main readiness
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  readiness:
+    if: >-
+      false &&
+      vars.SONAR_MAIN_ENABLED == 'true' &&
+      github.repository == 'andregoepel/marten-testing' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_repository.full_name == github.repository
+    uses: andregoepel/workflows/.github/workflows/sonar-library.yml@752a04b788fd1cdb41e810ab62c184fe141d240a
+    secrets:
+      SONAR_SCAN_TOKEN: ${{ secrets.SONAR_SCAN_TOKEN }}
+      SONAR_VERIFY_TOKEN: ${{ secrets.SONAR_VERIFY_TOKEN }}
+    with:
+      tool-revision: 752a04b788fd1cdb41e810ab62c184fe141d240a

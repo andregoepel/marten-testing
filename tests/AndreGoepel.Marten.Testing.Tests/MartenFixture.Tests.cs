@@ -11,7 +11,7 @@ public sealed class MartenFixtureTests(MartenFixture fixture)
     : IClassFixture<MartenFixture>,
         IAsyncLifetime
 {
-    private CancellationToken Ct => TestContext.Current.CancellationToken;
+    private static CancellationToken Ct => TestContext.Current.CancellationToken;
 
     public async ValueTask InitializeAsync() => await fixture.ResetAsync(Ct);
 

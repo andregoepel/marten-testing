@@ -104,3 +104,7 @@ The pinned image digest lives in `MartenFixture.PostgresImage` (currently `postg
 ## Requirements
 
 Docker (or a compatible container runtime) must be available wherever tests run — locally and in CI. GitHub-hosted `ubuntu-latest` runners have Docker preinstalled.
+
+## Sonar and publication gate
+
+See [local analysis and inactive NuGet gate preparation](docs/sonar.md).
