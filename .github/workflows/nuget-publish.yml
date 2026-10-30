@@ -3,6 +3,7 @@
 name: NuGet verified publication
 
 on:
+  workflow_dispatch: {}
   workflow_run:
     workflows: ["NuGet preparation"]
     types: [completed]
@@ -14,6 +15,54 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  identity-check:
+    if: ${{ github.repository == 'andregoepel/marten-testing' && github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-24.04
+    environment: nuget-publish
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      id-token: write
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Verify no-upload identity context
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NUGET_USER: ${{ secrets.NUGET_USER }}
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REPOSITORY" = andregoepel/marten-testing
+          test "$GITHUB_EVENT_NAME" = workflow_dispatch
+          test "$GITHUB_REF" = refs/heads/main
+          test "$GITHUB_RUN_ATTEMPT" = 1
+          test "$GITHUB_WORKFLOW_REF" = "$GITHUB_REPOSITORY/.github/workflows/nuget-publish.yml@refs/heads/main"
+          test "$GITHUB_WORKFLOW_SHA" = "$GITHUB_SHA"
+          [[ "$GITHUB_SHA" =~ ^[a-f0-9]{40}$ ]]
+          test "$NUGET_USER" = andre.goepel
+          main_sha=$(gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/main" --jq '.object.sha')
+          test "$main_sha" = "$GITHUB_SHA"
+
+      - name: Check trusted NuGet login without upload
+        id: identity-login
+        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
+      - name: Record no-upload identity result
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TEMPORARY_KEY: ${{ steps.identity-login.outputs.NUGET_API_KEY }}
+        run: |
+          set -euo pipefail
+          test -n "$TEMPORARY_KEY"
+          unset TEMPORARY_KEY
+          main_sha=$(gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/main" --jq '.object.sha')
+          test "$main_sha" = "$GITHUB_SHA"
+          printf '### NuGet identity check (no upload)\n\nRepository: %s\n\nCommit: %s\n\nRun: %s, attempt: %s\n\nExpected owner identity verified; trusted login succeeded. No package was built or uploaded.\n' \
+            "$GITHUB_REPOSITORY" "$GITHUB_SHA" "$GITHUB_RUN_ID" "$GITHUB_RUN_ATTEMPT" >> "$GITHUB_STEP_SUMMARY"
+
   publish:
     if: >-
       false &&
