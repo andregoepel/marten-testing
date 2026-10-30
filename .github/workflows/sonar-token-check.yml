@@ -1,0 +1,72 @@
+name: Sonar production token check
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - .github/workflows/sonar-token-check.yml
+      - scripts/sonar/verify-production-tokens.sh
+      - scripts/sonar/tests/production-tokens.sh
+  workflow_dispatch:
+    inputs:
+      target_environment:
+        description: Protected environment whose new Sonar credentials will be checked
+        type: choice
+        required: true
+        options: [nuget-publish, sonar-nuget-prepare]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: marten-testing-sonar-token-check
+  cancel-in-progress: false
+
+jobs:
+  contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Test credential probe offline
+        run: bash scripts/sonar/tests/production-tokens.sh
+
+  verify:
+    needs: contracts
+    if: >-
+      github.event_name == 'workflow_dispatch' &&
+      github.repository == 'andregoepel/marten-testing' && github.ref == 'refs/heads/main' &&
+      (inputs.target_environment == 'nuget-publish' || inputs.target_environment == 'sonar-nuget-prepare')
+    environment: ${{ inputs.target_environment }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Bind original dispatch to current main
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$GITHUB_RUN_ATTEMPT" = 1
+          test "$GITHUB_WORKFLOW_SHA" = "$GITHUB_SHA"
+          test "$GITHUB_WORKFLOW_REF" = "$GITHUB_marten-testingSITORY/.github/workflows/sonar-token-check.yml@refs/heads/main"
+          test "$(gh api repos/andregoepel/marten-testing/git/ref/heads/main --jq '.object.sha')" = "$GITHUB_SHA"
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Verify new scoped Sonar credentials without writes
+        env:
+          SONAR_SCAN_TOKEN: ${{ secrets.SONAR_SCAN_TOKEN }}
+          SONAR_VERIFY_TOKEN: ${{ secrets.SONAR_VERIFY_TOKEN }}
+        run: bash scripts/sonar/verify-production-tokens.sh marten-testing
+      - name: Confirm main identity and summarize diagnostics
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TARGET_ENVIRONMENT: ${{ inputs.target_environment }}
+        run: |
+          set -euo pipefail
+          test "$(gh api repos/andregoepel/marten-testing/git/ref/heads/main --jq '.object.sha')" = "$GITHUB_SHA"
+          printf '### Read-only Sonar credential check\n\nRepository: %s\n\nCommit: %s\n\nEnvironment: %s\n\nBoth scoped identities and private-project read boundaries passed. No analysis submission, NuGet login, package preparation or upload occurred. This is not release readiness.\n' \
+            "$GITHUB_marten-testingSITORY" "$GITHUB_SHA" "$TARGET_ENVIRONMENT" >> "$GITHUB_STEP_SUMMARY"
