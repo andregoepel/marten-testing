@@ -37,8 +37,9 @@ passende Release-Tag-Ereignisse; er erzeugt selbst keinen Release-Tag.
 ## Vor einem Merge offen
 
 - Live-Kontrollen und NuGet-Policy unmittelbar vor Aktivierung erneut prüfen.
-- Effektiven NUGET_USER für das Besitzerkonto andre.goepel sicher bestätigen.
-  Das vorhandene Secret ist nicht auslesbar; keinen Wert in Logs ausgeben.
+- Die Identität andre.goepel ist bestätigt und mit Zustimmung am 30. Oktober
+  in beiden NUGET_USER-Secrets hinterlegt. Der tatsächliche geschützte
+  OIDC-Austausch bleibt bis zum separaten Diagnose-Review offen.
 - Betreiberabnahme festhalten. Der lokale Coverage-Fehler-/Recovery-Drill ersetzt
   keinen geschützten Main-Drill. Gehostete NuGet-OIDC-, Upload- und entfernte
   Paket-/Symbol-Abnahme sind weiterhin offen und benötigen eine separate Freigabe.
@@ -49,3 +50,30 @@ Dieser PR bleibt deshalb ein Entwurf. Keine Pakete wurden veröffentlicht, keine
 Release-Tags angelegt und keine NuGet-Anmeldung ausgeführt. Ein erster Release
 braucht eine gesonderte Freigabe von Version, Commit und Tag. Das Tracking-Issue
 bleibt bis zur vollständigen Abnahme offen.
+
+## Ergänzte Betreiberabnahme vom 30. Oktober
+
+NuGet bestätigt andre.goepel als Besitzer und die exakten Repository-/Workflow-/
+Environment-Zuordnungen. Keine API-Schlüssel und keine überlappenden passenden
+Policies im angezeigten Konto. Beide NUGET_USER-Secrets wurden nach ausdrücklicher
+Zustimmung auf die bestätigte Identität gesetzt; kein Environment überschreibt sie.
+GitHub bestätigte die Speicherung. Das ist noch kein ausgeführter OIDC-Test.
+
+Live-Readbacks bestätigen weiterhin nur v* für Preparation, main für Publisher,
+Reviewer 22834588, gesperrten Admin-Bypass und aktive unveränderliche Tag-Regeln
+ohne Bypass-Akteure. Die positiven zentralen New-Code-/Quellzeilen-Prüfungen sind
+abgeschlossen: neuer Code 100 % abgedeckt, null neue unbedeckte Zeilen und Findings.
+
+Der getrennte [Diagnose-PR #50](https://github.com/andregoepel/marten-testing/pull/50)
+bereitet die tatsächliche NuGet-Anmeldung ohne Upload vor und dokumentiert die
+Live-Abnahme ausführlich. Er erhält beide Produktionssperren und muss zuerst
+reviewt und gemergt werden. Danach die geschützten Anmeldetests sequenziell ausführen.
+
+Der [Main-Fehler-/Recovery-Entwurf #51](https://github.com/andregoepel/marten-testing/pull/51)
+enthält die konkrete unbedeckte Probe und verlinkt ihren vorbereiteten exakten
+Rücknahmecommit. Der absichtlich rote main benötigt separate ausdrückliche
+Merge-Autorisierung. Bisher wurde kein solcher Main-Test ausgeführt.
+
+Vor Aktivierungs-Merge diesen Branch auf den dann aktuellen main abgleichen,
+Diagnoseänderungen erhalten und neue Commit-bezogene Nachweise verlangen.
+Remote-Paket-/Symbol-Abnahme bleibt unter dem Veröffentlichungsverbot offen.
