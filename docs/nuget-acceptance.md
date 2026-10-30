@@ -56,27 +56,33 @@ These tests extract the actual shipped workflow event-check/recorder blocks and 
 
 Local Sonar analyzes the review branch on the separate prototype. The unchanged central workflow can verify the new CI/policy binding only after merge on exact main. Historical no-upload evidence is not standing release authorization.
 
-## Remaining production migration
+## Production migration status
 
-| Field | Proposed exclusive publisher |
-| --- | --- |
-| Exact package | `AndreGoepel.Marten.Testing` |
-| NuGet owner | `andre.goepel` |
-| GitHub owner / repository | `andregoepel` / `marten-testing` |
-| Workflow | `nuget-publish.yml` |
-| Environment | `nuget-publish` |
-| Scope | Push new versions of this exact package only |
+The legacy publisher was retired in the merged standby change. The production
+controls were subsequently installed and verified on 30 October 2026:
 
-The previous read-only audit is retained privately. The existing NuGet policy still names `ci.yml`; this PR does not change it, credentials, live environments or tag rules. Removing the job from this revision does not revoke trust in historical workflow revisions or close every alternate publishing route. Complete the exclusive-route audit and policy migration before activation.
+- Protected `sonar-nuget-prepare` (`v*` tags only) and `nuget-publish` (`main`
+  branch only), operator review, self-approval allowed, administrator bypass off.
+- Active immutable `v*` tag ruleset without bypass actors. Actual Git updates and
+  deletions were rejected on isolated test tags; temporary resources were removed.
+- The existing exact-package NuGet policy now trusts only `nuget-publish.yml`
+  with environment `nuget-publish`, for new versions of the existing package.
+  The authenticated account inventory showed no alternative API keys or
+  overlapping Trusted Publisher policies for this package.
 
-After review and merge:
+See [the operator migration record](nuget-production-migration.md) and the
+sanitized [control snapshot](../scripts/sonar/publication/production-controls/verification.json).
+These are historical acceptance records, not live readiness or release authority.
 
-1. Verify exact-main CI/Sonar against the unchanged accepted baseline and new CI file hash. Keep preparation and publishing disabled.
-2. Separately authorize the exact package policy move above, remove obsolete/overlapping routes and recheck API-key alternatives. Preserve other packages and repositories.
-3. Separately authorize production environments: `sonar-nuget-prepare` admits `v*` tags only; `nuget-publish` admits `main` only. Require operator review, allow sole-operator self-approval and disable administrator bypass. Credential placement needs explicit destination approval.
-4. Prove update/deletion rejection on disposable nonrelease tags before applying reviewed `v*` tag protection. The ruleset file remains a disabled proposal.
-5. Prepare a separate activation PR only after those controls pass. Remove the approved production guards and bind the changed preparation hash. A real release still requires explicit version/commit/tag approval and fresh CI/Sonar.
+Both production jobs retain their unconditional false guards. The new production
+environments contain no secrets. Credential placement, operator rollout acceptance
+and a separate activation PR remain outstanding. Recheck effective `NUGET_USER`,
+which already exists as a repository secret, without assuming its private value.
+Activation requires a new preparation-workflow hash and fresh exact-main CI/Sonar.
+No package publication or release tag is authorized by this change.
 
-Keep both production jobs disabled if migration or validation fails. Do not restore the old publisher as fallback or retry an ambiguous package/symbol result. Preserve intent/outcome evidence for separately authorized recovery. External evidence storage remains deferred and GitHub artifact retention is finite.
-
-Operator rollout acceptance remains open. Local coverage-gate failure/recovery passed separately; protected-main rejection/recovery has not been exercised. This standby change does not close the tracking issue.
+Protected-main rejection/recovery, hosted annotated-tag behavior, production NuGet
+OIDC and remote package/symbol ingestion have not been established by the existing
+no-upload tests. External archival remains deferred. Keep the tracking issue open.
+If migration or verification fails, keep both production jobs disabled; never
+restore the legacy publisher or retry an ambiguous upload without reconciliation.

@@ -1,0 +1,15 @@
+{
+  "can_admins_bypass": false,
+  "deployment_branch_policy": {
+    "protected_branches": false,
+    "custom_branch_policies": true
+  },
+  "wait_timer": 0,
+  "reviewers": [
+    {
+      "type": "User",
+      "id": 22834588
+    }
+  ],
+  "prevent_self_review": false
+}
