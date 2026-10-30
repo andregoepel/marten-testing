@@ -1,0 +1,39 @@
+{
+  "verifiedAt": "2026-10-30T16:25:48.5036468Z",
+  "repository": "andregoepel/marten-testing",
+  "mainSha": "5eeabe2b35f9b546fbb58db744c7a1b2facfc01c",
+  "productionRulesetId": 26220297,
+  "tagPattern": "refs/tags/v*",
+  "bypassActors": [],
+  "updateRejectedViaGitPush": true,
+  "deletionRejectedViaGitPush": true,
+  "originalTestTargetUnchanged": true,
+  "temporaryResourcesRemoved": true,
+  "productionJobsEnabled": false,
+  "credentialsTransferred": false,
+  "nugetPolicyVerified": true,
+  "releaseCreated": false,
+  "environments": [
+    {
+      "refType": "tag",
+      "reviewerId": 22834588,
+      "pattern": "v*",
+      "canAdminsBypass": false,
+      "name": "sonar-nuget-prepare"
+    },
+    {
+      "refType": "branch",
+      "reviewerId": 22834588,
+      "pattern": "main",
+      "canAdminsBypass": false,
+      "name": "nuget-publish"
+    }
+  ],
+  "nugetWorkflow": "nuget-publish.yml",
+  "nugetEnvironment": "nuget-publish",
+  "nugetScope": "Push only new package versions",
+  "package": "AndreGoepel.Marten.Testing",
+  "nugetAccountApiKeysPresent": false,
+  "nugetOverlappingPoliciesPresent": false,
+  "nugetInventoryDate": "2026-10-30"
+}
