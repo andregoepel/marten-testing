@@ -105,3 +105,10 @@ tatsächlich ausgelieferten Dispatch- und Summary-Blöcke aus, einschließlich
 Original-Attempt, Workflow-/Main-Identität und Negativfällen. Ein erfolgreicher
 Fixture-Test ersetzt weiterhin nicht die echten Token-Läufe. Erst nach Merge
 der Korrektur einen neuen Lauf auf dem dann aktuellen main-Commit starten.
+
+## Geschützte Ergebnisse nach der Korrektur
+
+Die beiden echten Environment-Prüfungen sind auf dem oben verlinkten Hauptbranch
+erfolgreich abgeschlossen. Runs, Commit und Aufräumnachweis stehen im
+[Aktivierungsentwurf](nuget-activation-review.md). Der frühere Status dieses Dokuments
+beschreibt den damaligen Stand vor diesen Läufen. Dies ist keine Upload-Abnahme.
