@@ -97,3 +97,42 @@ run_case invalid-project reject bash "$probe" unrelated
 for channel in ACTIONS_ID_TOKEN_REQUEST_TOKEN ACTIONS_ID_TOKEN_REQUEST_URL NUGET_API_KEY NUGET_SYMBOL_API_KEY NUGET_AUTH_TOKEN; do
   run_case "$channel" reject env "$channel=forbidden" bash "$probe" marten-testing
 done
+
+# Execute the actual shipped dispatch/summary blocks, including variable names.
+workflow="$root/.github/workflows/sonar-token-check.yml"
+repository="andregoepel/$(basename -- "$root")"
+[[ "$repository" =~ ^andregoepel/marten-(testing|configuration)$ ]]
+extract_step() {
+  awk -v name="$1" '
+    $0 == "      - name: " name { inside = 1; next }
+    inside && /^        run: \|$/ { code = 1; found = 1; next }
+    code && /^          / { print substr($0, 11); next }
+    code { exit }
+    END { if (!found) exit 1 }
+  ' "$workflow" > "$2"
+}
+extract_step 'Bind original dispatch to current main' "$workspace/dispatch.sh"
+extract_step 'Confirm main identity and summarize diagnostics' "$workspace/summary.sh"
+cat > "$workspace/bin/gh" <<'GH'
+#!/usr/bin/env bash
+set -euo pipefail
+[[ $# -eq 4 && "$1" == api && "$2" == "repos/$GITHUB_REPOSITORY/git/ref/heads/main" && "$3" == --jq && "$4" == .object.sha ]] || exit 90
+printf '%s\n' "$FIXTURE_MAIN"
+GH
+chmod +x "$workspace/bin/gh"
+export GITHUB_REPOSITORY="$repository" GITHUB_EVENT_NAME=workflow_dispatch GITHUB_REF=refs/heads/main GITHUB_RUN_ATTEMPT=1
+export GITHUB_SHA="$(printf 'a%.0s' {1..40})"
+export GITHUB_WORKFLOW_SHA="$GITHUB_SHA" FIXTURE_MAIN="$GITHUB_SHA"
+export GITHUB_WORKFLOW_REF="$repository/.github/workflows/sonar-token-check.yml@refs/heads/main"
+export GITHUB_STEP_SUMMARY="$workspace/summary" TARGET_ENVIRONMENT=nuget-publish
+run_case original-main-dispatch pass bash "$workspace/dispatch.sh"
+run_case summary-uses-repository-context pass bash "$workspace/summary.sh"
+grep -Fq -- "$repository" "$GITHUB_STEP_SUMMARY"
+run_case wrong-repository reject env GITHUB_REPOSITORY=andregoepel/unrelated bash "$workspace/dispatch.sh"
+run_case wrong-event reject env GITHUB_EVENT_NAME=pull_request bash "$workspace/dispatch.sh"
+run_case wrong-ref reject env GITHUB_REF=refs/heads/feature/probe bash "$workspace/dispatch.sh"
+run_case dispatch-rerun reject env GITHUB_RUN_ATTEMPT=2 bash "$workspace/dispatch.sh"
+run_case changed-workflow-source reject env GITHUB_WORKFLOW_SHA="$(printf 'c%.0s' {1..40})" bash "$workspace/dispatch.sh"
+run_case wrong-workflow-path reject env GITHUB_WORKFLOW_REF="$repository/.github/workflows/ci.yml@refs/heads/main" bash "$workspace/dispatch.sh"
+run_case main-advanced-before-check reject env FIXTURE_MAIN="$(printf 'c%.0s' {1..40})" bash "$workspace/dispatch.sh"
+run_case main-advanced-after-check reject env FIXTURE_MAIN="$(printf 'c%.0s' {1..40})" bash "$workspace/summary.sh"

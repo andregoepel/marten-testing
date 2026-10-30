@@ -89,3 +89,19 @@ externen Netzwerkzugriffe. Derselbe Vertrag läuft ohne Secrets bei Pull Request
 **Status dieses PRs:** lokal geprüft; geschützte Produktions-Token-Läufe noch
 nicht ausgeführt. Die tatsächlichen Ergebnisse können erst nach Merge und
 Environment-Freigabe ergänzt werden. Dieser PR aktiviert keine Veröffentlichung.
+
+## Erster Dispatch und Korrektur des Context-Guards
+
+Der erste [geschützte Lauf in marten-testing](https://github.com/andregoepel/marten-testing/actions/runs/41097885045)
+ist vor Checkout und Credential-Prüfung fehlgeschlagen: Die Workflow-Vorlage hatte
+GITHUB_REPOSITORY bei der Repository-Ersetzung beschädigt. Das ist kein negativer
+Token-Nachweis. Weitere Läufe wurden angehalten; es wurde noch keine temporäre
+main-Regel angelegt und kein Upload ausgeführt. Der historische Fehlerlauf bleibt
+unverändert; kein Rerun wurde ausgelöst.
+
+Die Korrektur erhält die Standardvariable unverändert und prüft zusätzlich
+Repository, Event und Ref ausdrücklich. Die Vertragsprüfung führt jetzt die
+tatsächlich ausgelieferten Dispatch- und Summary-Blöcke aus, einschließlich
+Original-Attempt, Workflow-/Main-Identität und Negativfällen. Ein erfolgreicher
+Fixture-Test ersetzt weiterhin nicht die echten Token-Läufe. Erst nach Merge
+der Korrektur einen neuen Lauf auf dem dann aktuellen main-Commit starten.
