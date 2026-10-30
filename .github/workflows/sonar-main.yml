@@ -18,9 +18,9 @@ jobs:
       github.repository == 'andregoepel/marten-testing' &&
       github.event.workflow_run.event == 'push' &&
       github.event.workflow_run.head_repository.full_name == github.repository
-    uses: andregoepel/workflows/.github/workflows/sonar-library.yml@752a04b788fd1cdb41e810ab62c184fe141d240a
+    uses: andregoepel/workflows/.github/workflows/sonar-library.yml@ebc566218aaa60684d23483c63f974e222d8f7f2
     secrets:
       SONAR_SCAN_TOKEN: ${{ secrets.SONAR_SCAN_TOKEN }}
       SONAR_VERIFY_TOKEN: ${{ secrets.SONAR_VERIFY_TOKEN }}
     with:
-      tool-revision: 752a04b788fd1cdb41e810ab62c184fe141d240a
+      tool-revision: ebc566218aaa60684d23483c63f974e222d8f7f2
