@@ -1,0 +1,23 @@
+name: NuGet identity contracts
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - .github/workflows/nuget-publish.yml
+      - .github/workflows/nuget-identity-contracts.yml
+      - scripts/sonar/tests/nuget-identity.sh
+
+permissions:
+  contents: read
+
+jobs:
+  contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Test no-upload identity boundaries offline
+        run: bash scripts/sonar/tests/nuget-identity.sh
