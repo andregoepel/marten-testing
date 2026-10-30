@@ -75,8 +75,9 @@ sanitized [control snapshot](../scripts/sonar/publication/production-controls/ve
 These are historical acceptance records, not live readiness or release authority.
 
 Both production jobs retain their unconditional false guards. The new production
-environments contain no secrets. Credential placement, operator rollout acceptance
-and a separate activation PR remain outstanding. Recheck effective `NUGET_USER`,
+environments now contain the additional scoped Sonar credentials, expiring on
+29 November 2026. Their protected read-only workflow validation, operator rollout
+acceptance and a separate activation PR remain outstanding. Recheck effective `NUGET_USER`,
 which already exists as a repository secret, without assuming its private value.
 Activation requires a new preparation-workflow hash and fresh exact-main CI/Sonar.
 No package publication or release tag is authorized by this change.
@@ -86,3 +87,7 @@ OIDC and remote package/symbol ingestion have not been established by the existi
 no-upload tests. External archival remains deferred. Keep the tracking issue open.
 If migration or verification fails, keep both production jobs disabled; never
 restore the legacy publisher or retry an ambiguous upload without reconciliation.
+
+See [the protected token-check plan](sonar-production-token-check.md) for the
+review-only diagnostic workflow, pending hosted runs and temporary preparation-
+environment main-ref allowance with mandatory cleanup. This does not enable uploads.

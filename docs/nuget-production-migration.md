@@ -16,8 +16,8 @@ Diese historischen Läufe sind kein aktueller Release-Freigabenachweis.
 
 | Environment | Einzige Deployment-Regel | Secrets im letzten Readback |
 | --- | --- | --- |
-| `sonar-nuget-prepare` | Tag `v*` | keine |
-| `nuget-publish` | Branch `main` | keine |
+| `sonar-nuget-prepare` | Tag `v*` | `SONAR_SCAN_TOKEN`, `SONAR_VERIFY_TOKEN` |
+| `nuget-publish` | Branch `main` | `SONAR_SCAN_TOKEN`, `SONAR_VERIFY_TOKEN` |
 
 Beide Environments verlangen Reviewer `andregoepel` (GitHub-ID 22834588), erlauben
 Selbstfreigabe und sperren Administrator-Bypass. Es gibt keine weiteren
@@ -65,9 +65,11 @@ prüfen. Es wurde kein Upload ausgeführt und kein NuGet-Token erzeugt.
 
 1. Live-Readback von Environments, Ref-Regeln, Reviewer, Bypass, Ruleset und
    NuGet-Policy gegen die obigen Werte wiederholen. Andere Pakete unverändert lassen.
-2. Credential-Platzierung gezielt freigeben und über die sichere Quelle ausführen:
+2. Die genehmigte Credential-Platzierung ist abgeschlossen. Für die Prüfung gelten:
    `SONAR_SCAN_TOKEN` und `SONAR_VERIFY_TOKEN` für dieses Projekt in
-   `sonar-nuget-prepare` und `nuget-publish`. Beide Ziele sind derzeit leer.
+   `sonar-nuget-prepare` und `nuget-publish`. Beide Ziele sind inzwischen mit neuen
+   User-Tokens der bestehenden, eingeschränkten Servicekonten belegt; Ablauf
+   29. November 2026.
    Den effektiven `NUGET_USER`-Wert für den Publisher prüfen; ein Repository-Secret
    dieses Namens existiert bereits, sein Wert wurde nicht gelesen. GitHub gibt
    bestehende Secret-Werte nicht zurück. Keine Werte in Logs oder Dateien ablegen.
@@ -88,7 +90,7 @@ Kein Rückfall auf den alten Publisher, keine Baseline-Resets und keine Wiederho
 unklarer Uploads. Externe Archivierung bleibt ein eigenständiger Folgepunkt.
 Das Tracking-Issue bleibt bis zur vollständigen Abnahme offen.
 
-## Validierung vor dem Review-PR
+## Validierung des vorangegangenen Kontroll-PRs
 
 Die vorhandenen Offline-Suiten tagged-handoff.sh sowie outcomes.sh für den
 Produktions- und Acceptance-Recorder sind erfolgreich. Unter Git Bash lief das
@@ -98,5 +100,11 @@ Die Live-Environment- und Tag-Kontrollen wurden erneut zurückgelesen.
 
 CSharpier 1.3.0 lief direkt mit der installierten .NET-10-Laufzeit; das im Projekt
 gepinnte SDK 10.0.402 fehlt lokal. Vollständige Build-/PostgreSQL-Tests werden
-deshalb durch die bestehende PR-CI geprüft. Dieser PR ändert keine C#-Quellen,
+deshalb durch die bestehende PR-CI geprüft. Der damalige Kontroll-PR änderte keine C#-Quellen,
 Workflows, Abhängigkeiten oder Credentials.
+
+## Neue Credential-Prüfläufe
+
+Siehe [den geschützten, schreibfreien Prüfplan](sonar-production-token-check.md).
+Die Metadaten sind geprüft; die tatsächlichen Workflow-Prüfungen der neuen Secrets
+stehen noch aus. Die Produktionssperren bleiben erhalten.
