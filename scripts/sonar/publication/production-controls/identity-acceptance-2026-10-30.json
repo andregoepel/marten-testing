@@ -1,0 +1,14 @@
+{
+  "repository": "andregoepel/marten-testing",
+  "runId": 41110911910,
+  "sha": "9421647a13e001b844fd10a8a0f030dc7e13fb77",
+  "attempt": 1,
+  "protectedJobId": 124252794463,
+  "environment": "nuget-publish",
+  "expectedOwner": "andre.goepel",
+  "result": "success",
+  "publisher": "skipped",
+  "artifactCount": 0,
+  "packageUploadPerformed": false,
+  "recordedAt": "2026-10-30T18:59:08.1219767Z"
+}

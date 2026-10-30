@@ -6,7 +6,7 @@
   "sonarUrl": "https://sonar.andregoepel.dev/",
   "project": "marten-testing",
   "serverId": "AA2DD71C-AaFDycIuQLOXJXX6YWNZ",
-  "toolRevision": "752a04b788fd1cdb41e810ab62c184fe141d240a",
+  "toolRevision": "ebc566218aaa60684d23483c63f974e222d8f7f2",
   "baselineAnalysisId": "e28d64b2-de9e-4bdf-b5c3-2bc47b15411b",
   "maximumRunAgeMinutes": 120,
   "evidenceLifetimeMinutes": 60,

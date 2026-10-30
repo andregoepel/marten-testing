@@ -81,7 +81,10 @@ freigegebene Release maßgeblich. Es gibt keinen Baseline-Reset zum Wiederherste
 
 ## Weiter offen und ausdrücklich nicht ausgeführt
 
-- Geschützter OIDC-Test: erst nach Merge dieses diagnostischen Reviews ausführbar.
+- Geschützter OIDC-Test: erfolgreich auf dem Diagnose-main in Original-Attempt 1;
+  [Run 41110911910](https://github.com/andregoepel/marten-testing/actions/runs/41110911910).
+  Der echte publish-Job war skipped, Artefaktanzahl null. Die sanitisierte
+  Aufzeichnung liegt unter production-controls/identity-acceptance-2026-10-30.json.
 - Tatsächlicher roter Main-/Recovery-Drill: benötigt Review der Fehlerrevision und
   ausdrückliche Merge-Autorisierung; bisher nicht ausgeführt.
 - Gehostetes Verhalten annotierter Release-Tags und Remote-Paket-/Symbol-Annahme:
@@ -94,3 +97,7 @@ Das Tracking-Issue bleibt offen. Keine vorhandenen Tokens wurden widerrufen und
 keine Pakete veröffentlicht. Ein fehlgeschlagener Login wird untersucht, nicht
 blind wiederholt; eine fehlgeschlagene Main-Analyse wird durch den Review-Recovery
 behoben und niemals durch eine gelockerte Policy.
+
+Die nachfolgende [Status-Konsistenzkorrektur](sonar-status-consistency.md) hält die
+unerwartet fehlgeschlagenen positiven Main-Läufe und den neuen exakt geprüften
+Verifier-Pin fest. Der Coverage-/Recovery-Drill ist deshalb noch nicht ausgeführt.
