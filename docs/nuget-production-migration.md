@@ -2,7 +2,7 @@
 
 Tracking: [Issue #38](https://github.com/andregoepel/marten-testing/issues/38).
 Stand: 30. Oktober 2026. Diese Dokumentation hält installierte Kontrollen fest;
-die Vorbereitung und Veröffentlichung bleiben deaktiviert.
+auf main bleiben Vorbereitung und Veröffentlichung bis zum separaten Aktivierungs-Merge deaktiviert.
 
 ## Abgenommener Hauptbranch
 
@@ -108,3 +108,15 @@ Workflows, Abhängigkeiten oder Credentials.
 Siehe [den geschützten, schreibfreien Prüfplan](sonar-production-token-check.md).
 Die Metadaten sind geprüft; die tatsächlichen Workflow-Prüfungen der neuen Secrets
 stehen noch aus. Die Produktionssperren bleiben erhalten.
+
+Der nachfolgende [Aktivierungsentwurf](nuget-activation-review.md) dokumentiert die
+neuen geschützten Prüfläufe, die vorbereiteten Änderungen und die offenen Merge-Bedingungen.
+
+## Aktueller Abnahmestand vom 31. Oktober 2026
+
+NuGet-Identität und geschützter OIDC-Anmeldetest ohne Upload sowie der gehostete
+Main-Coverage-Fehler-/Recovery-Drill sind inzwischen erfolgreich abgeschlossen.
+Die obigen früheren Planungsstände bleiben als Historie erhalten. Maßgeblich für
+Ergebnisse, Grenzen und verbleibende Punkte ist das
+[aktuelle Betreiberprotokoll](nuget-operator-acceptance.md). Beide Produktionsjobs
+bleiben auf main gesperrt; der Aktivierungsreview ist ungemergt. Keine Veröffentlichung.

@@ -1,103 +1,85 @@
-# Betreiberabnahme ohne Paketveröffentlichung
+# Betreiberabnahme vor NuGet-Aktivierung
 
-Tracking: [#38](https://github.com/andregoepel/marten-testing/issues/38). Stand: 30. Oktober 2026.
+Tracking: [Issue #38](https://github.com/andregoepel/marten-testing/issues/38). Stand: 31. Oktober 2026.
+Aktueller sauberer main nach Recovery: 7fb47734f754054dc1f9c1253bb0e8a2d8e46885.
 
-## Erledigte Live-Prüfungen
+## Abgeschlossen
 
-- NuGet-Kontositzung und beide exakten Paket-Policies bestätigen Besitzer andre.goepel.
-  Diese Policy verwendet ausschließlich Repository andregoepel/marten-testing,
-  nuget-publish.yml und Environment nuget-publish, Push nur neuer Versionen.
-  Die vollständige angezeigte Policy-Liste enthielt keine weitere passende Zuordnung;
-  die API-Key-Verwaltung meldete keine Schlüssel. Andere Konten/Owners wurden nicht geprüft.
-- Nach ausdrücklicher Zustimmung wurde das bestehende Repository-Secret NUGET_USER
-  am 2026-10-30T18:45:01Z auf den bestätigten Benutzernamen gesetzt. GitHub bestätigte
-  die Speicherung; der bisherige unbekannte Secret-Wert wurde nicht gelesen.
-  Das Publisher-Environment enthält nur die beiden SONAR-Secrets und überschreibt
-  den Benutzernamen deshalb nicht. Eine erfolgreiche Speicherung beweist noch keinen OIDC-Austausch.
-- Beide Produktions-Environments verlangen Reviewer andregoepel (22834588), erlauben
-  Selbstfreigabe und sperren Admin-Bypass. Preparation erlaubt nur Tag v*, Publisher
-  nur Branch main. Keine temporäre main-Regel ist vorhanden.
-- Ruleset 26220297 ist aktiv, schützt genau refs/tags/v*, verbietet Updates/Löschung
-  und hat keine Bypass-Akteure. Kein Release-Tag wurde zum Prüfen angelegt.
-- Die zuvor erfolgreichen Main-Readiness-Artefakte stimmen mit Commit, Repository und
-  unveränderter akzeptierter Baseline überein. Sie melden analysisReady=true,
-  releaseEligible=false. Historische Nachweise ersetzen keine frische Release-Prüfung.
-- Live-Sonar: Gesamt-Coverage 100 %, 20 ausführbare Zeilen; neuer Code 100 %
-  bei 2 ausführbaren neuen Zeilen, null neue unbedeckte Zeilen, null neue
-  Conditions, null Findings und null Hotspots. Zeilentreffer der neuen Guards:
-  MartenFixture.cs:76,78, jeweils mindestens ein Treffer. Mangels neuer Conditions ist dies
-  kein separat gemessener Nachweis beider Zweige. Die erforderlichen positiven und
-  negativen Guard-Tests sind in der erfolgreichen CI enthalten.
+- Besitzer und effektive NuGet-Identität andre.goepel bestätigt. Beide bestehenden
+  NUGET_USER-Secrets wurden mit ausdrücklicher Zustimmung gesetzt. Der tatsächliche
+  [geschützte OIDC-Anmeldetest](https://github.com/andregoepel/marten-testing/actions/runs/41110911910) war in Original-Attempt 1
+  erfolgreich; echter Publisher skipped, keine Artefakte, kein Upload. Der kurzlebige
+  Schlüssel wurde nicht archiviert. Die NuGet-Policy bindet das exakte vorhandene Paket
+  an Repository, nuget-publish.yml und Environment nuget-publish, nur neue Versionen.
+- Produktions-Environments und unveränderliche Tag-Regeln am 31. Oktober erneut
+  gelesen: Preparation nur v*, Publisher nur main, Reviewer 22834588, Selbstfreigabe
+  erlaubt und Admin-Bypass aus. Keine temporäre main-Regel vorhanden. Das Publisher-
+  Environment überschreibt NUGET_USER nicht. Keine bestehenden Tokens widerrufen.
+- Geschützter Main-Coverage-Fehler und exakte Recovery vollständig durchgeführt.
+  Testing wurde einschließlich Recovery beendet, bevor Configuration begann.
+  Alle 5 erforderlichen Tests blieben auch auf der Fehlerrevision erfolgreich.
 
-## Geschützter NuGet-Anmeldetest
+| Phase | Commit | Sonar-Lauf | Gate / Gesamt-Coverage |
+| --- | --- | --- | --- |
+| Sauberer Ausgang | dd43cac5df254007cedaf150e432cf4c9ce717d3 | [41196044374](https://github.com/andregoepel/marten-testing/actions/runs/41196044374) | OK / 100.0 % |
+| Coverage-Probe | 325920b8e0abea5e6daf77c5bcfcae94405817d8 | [41196940753](https://github.com/andregoepel/marten-testing/actions/runs/41196940753) | ERROR / 23.5 % |
+| Exakte Recovery | 7fb47734f754054dc1f9c1253bb0e8a2d8e46885 | [41197257793](https://github.com/andregoepel/marten-testing/actions/runs/41197257793) | OK / 100.0 % |
 
-Dieser Review fügt ausschließlich einen manuellen identity-check-Job in die bereits
-zugeordnete nuget-publish.yml ein. Der echte publish-Job bleibt unbedingt gesperrt.
+Jede Sonar-Ausführung war ein neuer Original-Attempt 1. Die Ausgangs-CI lief wegen
+abgelaufener Vortagsevidenz in frischem Attempt 3; Fehler- und Recovery-CI jeweils
+in Attempt 1. Alle vorgeschriebenen Restore-, Format-, Build-, Test- und Audit-
+Schritte wurden vollständig als erfolgreich verifiziert.
 
-Nach einem separat reviewten Merge:
+Der negative CE-Task wurde erfolgreich verarbeitet. Das unveränderte coverage < 80-
+Gate lehnte konkret die importierte unbedeckte Produktionsprobe ab. Es gab für die
+Fehlerrevision nur die Analyse-Diagnose und **kein** positives Readiness-Artefakt.
+Ein beliebiger Build-/Netzwerkfehler wurde nicht als Negativnachweis akzeptiert.
 
-1. Erfolgreiche CI für den exakten neuen main-Commit prüfen. Nicht die Aktivierungs-PRs mergen.
-2. Workflow NuGet verified publication auf main manuell starten, nur Original-Attempt 1.
-3. Freigabe im unverändert geschützten Environment nuget-publish durchführen.
-4. Der Job prüft Repository, main, Workflow-Revision, Attempt und effektiven Benutzernamen
-   vor dem offiziellen, unverändert gepinnten NuGet/login. Anschließend prüft er erneut
-   den aktuellen Hauptbranch und lediglich das Vorhandensein des ausgegebenen Schlüssels.
-5. Ergebnis, Commit, Attempt und geschützten Job festhalten; zuerst testing, dann configuration.
+[Fehler-PR #51](https://github.com/andregoepel/marten-testing/pull/51) und
+[Recovery-PR #53](https://github.com/andregoepel/marten-testing/pull/53) wurden ausdrücklich freigegeben.
+Die tatsächliche Rücknahme wurde auf dem gemergten Fehler-main aufgebaut und ihre
+Probe vor Entfernung gegen den reviewten Blob geprüft. Der gesamte bereinigte Git-
+Quellbaum und der neue Analyse-Quellfingerprint entsprechen exakt dem sauberen
+Ausgangsstand. Contract, spezifische Baseline, Gate und eingefrorene Profile blieben
+unverändert. Die neue Recovery hat eigene Task-/Analysis-IDs und einen frischen
+Readiness-Nachweis: analysisReady=true, releaseEligible=false.
 
-Kein Checkout, Pack, Paket-Download, Push oder Artefakt-Upload ist Teil dieses Jobs.
-Die Anmeldung tauscht OIDC gegen einen kurzlebigen NuGet-Schlüssel; der Schlüssel
-wird weder ausgegeben noch gespeichert oder zum Upload verwendet. Das entspricht
-[der offiziellen Aktionsbeschreibung](https://github.com/NuGet/login/blob/8d196754b4036150537f80ac539e15c2f1028841/README.md).
-Ein erfolgreicher Test beweist die tatsächliche Vertrauensbindung dieses Workflows,
-aber keine Paket-/Symbol-Annahme. Die bestehenden No-Upload-Simulationen bleiben getrennt.
+Die sanitisierte Aufzeichnung mit IDs, Fingerprints, Tests und Ablaufzeiten liegt in
+[operator-acceptance-2026-10-31.json](../scripts/sonar/publication/production-controls/operator-acceptance-2026-10-31.json).
+Sie ist ein historischer Abnahmebeleg und autorisiert keinen späteren Release.
+Die früheren API-Status-/Schrittinventar-Fehler bleiben im Laufverlauf erhalten;
+der geprüfte gemeinsame Verifier-Pin und vollständige CI-Schrittnachweise wurden
+vor den erfolgreichen Läufen verlangt. Keine Prüfanforderung wurde entfernt.
 
-## Gehosteter Coverage-Fehler und Recovery
+## Grenzen und verbleibende Punkte
 
-Dieser Abnahmepunkt erfordert eine gesondert reviewte, ausdrücklich genehmigte
-Fehlerrevision auf main. Keine Gates, Baselines, Token-Rechte oder Publish-Sperren ändern.
-Kein Release-Tag während des Drills. Repositories sequenziell abarbeiten:
+- Servergesundheit GREEN und leere CE-Warteschlange wurden vor jeder sequenziellen
+  Scan-Freigabe geprüft. Autorisierte Host-Stichproben nach den Scans: mindestens
+  6.708 MiB von 11.914 MiB RAM verfügbar (56,3 %), 175.789 MiB Systemplatte frei
+  (74,2 %), einminütige Last 0,12–0,17. Sonar belegte 2,277 GiB seines 5-GiB-Limits
+  (45,55 %), seine Datenbank 124,2 MiB ihres 1-GiB-Limits (12,13 %). Dies sind
+  Momentaufnahmen nach den Scans, kein Lastspitzen-, Langzeit- oder Kapazitätsdrill.
+  Der Host-Fingerabdruck wurde unabhängig bestätigt. Der ausdrücklich beauftragte
+  Notebook-Public-Key wurde mit Backup und Erhalt bestehender Schlüssel ergänzt;
+  Anmeldung nur mit dem lokalen Notebook-Privatkey, ohne Agent/temporären Zugang,
+  wurde separat verifiziert. Keine globale SSH-Konfiguration geändert, keine privaten
+  Schlüsselinhalte ausgegeben oder auf den Server übertragen. Außer der genehmigten
+  authorized_keys-Ergänzung wurde keine Server-Konfiguration geändert.
+- Die vier Produktions-Token-Diagnosen belegen Identität und private Projekt-Lesegrenzen;
+  der Main-Drill verwendet die bestehenden sonar-main-Credentials. Er ist kein neuer
+  Analyse-Submit-Nachweis jedes zusätzlichen Produktions-Tokens.
+- Tatsächlicher Paket-/Symbol-Upload und entfernte Annahme sowie gehostetes Verhalten
+  annotierter Release-Tags wurden unter dem Veröffentlichungsverbot nicht getestet.
+  Der rote Main-Drill beweist die Readiness-Ablehnung, keinen realen NuGet-Uploadversuch.
+- Externe Archivierung bleibt unkonfiguriert. Sanitisierte Belege liegen im Review und
+  in den jeweiligen Actions-Artefakten. Keine Token-Werte wurden aufgenommen.
 
-1. Sauberen Ausgangscommit und frischen erfolgreichen CI-/Sonar-Nachweis festhalten.
-2. Eine isolierte zusätzliche Produktionsdatei SonarCoverageFailureProbe.cs reviewen.
-   Sie enthält eine nicht aufgerufene interne Methode mit mindestens 64 unbedeckten
-   Anweisungen; aktuelle Gesamtzeilen plus 32 bestimmen bei Bedarf die größere Größe.
-   Bestehende Tests und öffentliche API bleiben unverändert. Entfernung ist die exakte Recovery.
-3. Erst nach ausdrücklicher Merge-Autorisierung diese Fehlerrevision mergen.
-   CI einschließlich aller Tests muss erfolgreich sein. Sonar anschließend auf genau
-   diesem main-Commit im geschützten Environment sequenziell freigeben.
-4. Erfolgreiche Analyseverarbeitung und Gate ERROR speziell für coverage < 80 fordern.
-   Die Probe muss als unbedeckte Produktionsquelle importiert sein. Ein Netzwerk-,
-   Test-, Build- oder beliebiger Workflowfehler ist kein erfolgreicher Negativnachweis.
-   Kein positiver Readiness-Nachweis für diese Revision darf ausgegeben werden.
-5. Den vorher reviewten exakten Rücknahmecommit per Recovery-PR mergen. Neue CI und
-   neue geschützte Analyse verlangen; Gate OK, unveränderte Baseline und gültigen
-   Readiness-Nachweis an exakt diesen Recovery-main-Commit binden.
-6. Fehler- und Recovery-Task-/Analysis-IDs, Coverage, Receipts und Quellfingerprints
-   aufbewahren. Erst danach zum zweiten Repository wechseln.
+## Aktivierungsreview
 
-Eine tatsächliche NuGet-Upload-Blockade wird durch einen Test ohne Release-Tag nicht
-gehostet bewiesen; dafür bleiben die Offline-Negativtests und der separate erste
-freigegebene Release maßgeblich. Es gibt keinen Baseline-Reset zum Wiederherstellen.
-
-## Weiter offen und ausdrücklich nicht ausgeführt
-
-- Geschützter OIDC-Test: erfolgreich auf dem Diagnose-main in Original-Attempt 1;
-  [Run 41110911910](https://github.com/andregoepel/marten-testing/actions/runs/41110911910).
-  Der echte publish-Job war skipped, Artefaktanzahl null. Die sanitisierte
-  Aufzeichnung liegt unter production-controls/identity-acceptance-2026-10-30.json.
-- Tatsächlicher roter Main-/Recovery-Drill: benötigt Review der Fehlerrevision und
-  ausdrückliche Merge-Autorisierung; bisher nicht ausgeführt.
-- Gehostetes Verhalten annotierter Release-Tags und Remote-Paket-/Symbol-Annahme:
-  unter dem geltenden Veröffentlichungsverbot nicht abgenommen. Kein echter Tag oder Upload.
-- Hostweite Speicherreserve und externe Archivierung: nicht geprüft/umgesetzt.
-- Aktivierung bleibt ein eigener Review. Nach jedem weiteren Merge verfallen die
-  bisherigen Commit-Bezüge; vor Release müssen neue frische Nachweise vorliegen.
-
-Das Tracking-Issue bleibt offen. Keine vorhandenen Tokens wurden widerrufen und
-keine Pakete veröffentlicht. Ein fehlgeschlagener Login wird untersucht, nicht
-blind wiederholt; eine fehlgeschlagene Main-Analyse wird durch den Review-Recovery
-behoben und niemals durch eine gelockerte Policy.
-
-Die nachfolgende [Status-Konsistenzkorrektur](sonar-status-consistency.md) hält die
-unerwartet fehlgeschlagenen positiven Main-Läufe und den neuen exakt geprüften
-Verifier-Pin fest. Der Coverage-/Recovery-Drill ist deshalb noch nicht ausgeführt.
+Auf main sind beide Produktionsjobs weiterhin unbedingt gesperrt. Der getrennte
+[Aktivierungsentwurf #49](https://github.com/andregoepel/marten-testing/pull/49) entfernt nur diese Sperren
+und aktualisiert den gebundenen Preparation-Hash. Er bleibt ungemergt. Vor späterem
+Release müssen die noch offenen Punkte bewertet, ein Aktivierungs-Merge separat
+freigegeben und neue erfolgreiche CI-/Sonar-Nachweise für genau dessen main-Commit
+verlangt werden. Version, Commit und Release-Tag benötigen eine eigene Freigabe.
+Keine Pakete veröffentlicht, keine Release-Tags angelegt; Tracking-Issue bleibt offen.
