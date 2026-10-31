@@ -1,0 +1,252 @@
+{
+  "schemaVersion": 1,
+  "repository": "andregoepel/marten-testing",
+  "recordedAt": "2026-10-31T11:58:40.4153154Z",
+  "sharedVerifierRevision": "ebc566218aaa60684d23483c63f974e222d8f7f2",
+  "identityCheck": {
+    "result": "success",
+    "attempt": 1,
+    "owner": "andre.goepel",
+    "publisher": "skipped",
+    "runId": 41110911910,
+    "artifactCount": 0
+  },
+  "failurePullRequest": 51,
+  "recoveryPullRequest": 53,
+  "clean": {
+    "commit": "dd43cac5df254007cedaf150e432cf4c9ce717d3",
+    "runId": 41196044374,
+    "attempt": 1,
+    "ciRunId": 41113554521,
+    "ciAttempt": 3,
+    "taskId": "11f528b1-316e-40e4-8bbe-0e3135b30dbb",
+    "analysisId": "cdce6e1f-4dc4-4ce4-9c31-3a2651bc4b9a",
+    "computeEngineStatus": "SUCCESS",
+    "gateStatus": "OK",
+    "coverage": "100.0",
+    "gateConditions": [
+      {
+        "status": "OK",
+        "metricKey": "new_coverage",
+        "comparator": "LT",
+        "errorThreshold": "80",
+        "actualValue": "100.0"
+      },
+      {
+        "status": "OK",
+        "metricKey": "coverage",
+        "comparator": "LT",
+        "errorThreshold": "80",
+        "actualValue": "100.0"
+      },
+      {
+        "status": "OK",
+        "metricKey": "new_duplicated_lines_density",
+        "comparator": "GT",
+        "errorThreshold": "3",
+        "actualValue": "0.0"
+      },
+      {
+        "status": "OK",
+        "metricKey": "new_violations",
+        "comparator": "GT",
+        "errorThreshold": "0",
+        "actualValue": "0"
+      },
+      {
+        "status": "OK",
+        "metricKey": "violations",
+        "comparator": "GT",
+        "errorThreshold": "0",
+        "actualValue": "0"
+      }
+    ],
+    "baselineAnalysisId": "e28d64b2-de9e-4bdf-b5c3-2bc47b15411b",
+    "ignoredConditions": false,
+    "sourceSha256": "d090924fbef1fd8bbdd4eff146674ac6c05349bdb9b6c8c2885873ed96eba36d",
+    "contractSha256": "33539b3cbd1e233e4cdf21d1c0f27e81fd096002e2e09bb0bc03b9c0f6e22ba6",
+    "tests": {
+      "AndreGoepel.Marten.Testing.Tests": {
+        "passed": 5,
+        "discovered": 5
+      }
+    },
+    "hasReadinessReceipt": true,
+    "analysisReady": true,
+    "releaseEligible": false,
+    "receiptIssuedAt": "2026-10-31T12:16:54.3499729+01:00",
+    "receiptExpiresAt": "2026-10-31T13:16:54.3499729+01:00"
+  },
+  "failure": {
+    "commit": "325920b8e0abea5e6daf77c5bcfcae94405817d8",
+    "runId": 41196940753,
+    "attempt": 1,
+    "ciRunId": 41196882376,
+    "ciAttempt": 1,
+    "taskId": "964031e6-33a9-4536-a189-0a30f7e9115d",
+    "analysisId": "2aac5bf0-638b-4d6a-921f-086c59f1dec2",
+    "computeEngineStatus": "SUCCESS",
+    "gateStatus": "ERROR",
+    "coverage": "23.5",
+    "gateConditions": [
+      {
+        "status": "ERROR",
+        "metricKey": "new_coverage",
+        "comparator": "LT",
+        "errorThreshold": "80",
+        "actualValue": "3.0"
+      },
+      {
+        "status": "ERROR",
+        "metricKey": "coverage",
+        "comparator": "LT",
+        "errorThreshold": "80",
+        "actualValue": "23.5"
+      },
+      {
+        "status": "OK",
+        "metricKey": "new_duplicated_lines_density",
+        "comparator": "GT",
+        "errorThreshold": "3",
+        "actualValue": "0.0"
+      },
+      {
+        "status": "OK",
+        "metricKey": "new_violations",
+        "comparator": "GT",
+        "errorThreshold": "0",
+        "actualValue": "0"
+      },
+      {
+        "status": "OK",
+        "metricKey": "violations",
+        "comparator": "GT",
+        "errorThreshold": "0",
+        "actualValue": "0"
+      }
+    ],
+    "baselineAnalysisId": "e28d64b2-de9e-4bdf-b5c3-2bc47b15411b",
+    "ignoredConditions": false,
+    "sourceSha256": "9eba94362b427c51d1c0fd0d3e15e5037092e65c1e722cb41cab57b51753e353",
+    "contractSha256": "33539b3cbd1e233e4cdf21d1c0f27e81fd096002e2e09bb0bc03b9c0f6e22ba6",
+    "tests": {
+      "AndreGoepel.Marten.Testing.Tests": {
+        "passed": 5,
+        "discovered": 5
+      }
+    },
+    "hasReadinessReceipt": false,
+    "analysisReady": false,
+    "releaseEligible": false,
+    "receiptIssuedAt": null,
+    "receiptExpiresAt": null
+  },
+  "recovery": {
+    "commit": "7fb47734f754054dc1f9c1253bb0e8a2d8e46885",
+    "runId": 41197257793,
+    "attempt": 1,
+    "ciRunId": 41197194748,
+    "ciAttempt": 1,
+    "taskId": "5a5b3dde-9d4c-424e-ab2d-44413521281b",
+    "analysisId": "0a9e2dcb-d31f-475a-95b2-09a6c9ea1b9f",
+    "computeEngineStatus": "SUCCESS",
+    "gateStatus": "OK",
+    "coverage": "100.0",
+    "gateConditions": [
+      {
+        "status": "OK",
+        "metricKey": "new_coverage",
+        "comparator": "LT",
+        "errorThreshold": "80",
+        "actualValue": "100.0"
+      },
+      {
+        "status": "OK",
+        "metricKey": "coverage",
+        "comparator": "LT",
+        "errorThreshold": "80",
+        "actualValue": "100.0"
+      },
+      {
+        "status": "OK",
+        "metricKey": "new_duplicated_lines_density",
+        "comparator": "GT",
+        "errorThreshold": "3",
+        "actualValue": "0.0"
+      },
+      {
+        "status": "OK",
+        "metricKey": "new_violations",
+        "comparator": "GT",
+        "errorThreshold": "0",
+        "actualValue": "0"
+      },
+      {
+        "status": "OK",
+        "metricKey": "violations",
+        "comparator": "GT",
+        "errorThreshold": "0",
+        "actualValue": "0"
+      }
+    ],
+    "baselineAnalysisId": "e28d64b2-de9e-4bdf-b5c3-2bc47b15411b",
+    "ignoredConditions": false,
+    "sourceSha256": "d090924fbef1fd8bbdd4eff146674ac6c05349bdb9b6c8c2885873ed96eba36d",
+    "contractSha256": "33539b3cbd1e233e4cdf21d1c0f27e81fd096002e2e09bb0bc03b9c0f6e22ba6",
+    "tests": {
+      "AndreGoepel.Marten.Testing.Tests": {
+        "passed": 5,
+        "discovered": 5
+      }
+    },
+    "hasReadinessReceipt": true,
+    "analysisReady": true,
+    "releaseEligible": false,
+    "receiptIssuedAt": "2026-10-31T12:34:45.6411564+01:00",
+    "receiptExpiresAt": "2026-10-31T13:34:45.6411564+01:00"
+  },
+  "recoveryFullTreeEqualsClean": true,
+  "scansSequential": true,
+  "baselineReset": false,
+  "gateWeakened": false,
+  "packageUploadPerformed": false,
+  "releaseTagCreated": false,
+  "remotePackageAcceptanceVerified": false,
+  "annotatedReleaseTagHostedTest": false,
+  "externalArchiveConfigured": false,
+  "hostResourceCheck": {
+    "authorized": true,
+    "hostFingerprintConfirmed": true,
+    "status": "point-in-time resource check completed after sequential scans",
+    "measurementCount": 2,
+    "measuredDuringAnalysis": false,
+    "hostMemoryTotalMiB": 11914,
+    "hostMemoryAvailableMiB": [
+      6708,
+      6738
+    ],
+    "minimumAvailableMemoryPercent": 56.3,
+    "rootDiskTotalMiB": 236993,
+    "rootDiskAvailableMiB": 175789,
+    "rootDiskFreePercent": 74.2,
+    "loadAverageOneMinute": [
+      "0.17",
+      "0.12"
+    ],
+    "sonarContainerMemoryGiB": 2.277,
+    "sonarContainerLimitGiB": 5,
+    "sonarContainerMemoryPercent": 45.55,
+    "databaseContainerMemoryMiB": 124.2,
+    "databaseContainerLimitGiB": 1,
+    "databaseContainerMemoryPercent": 12.13,
+    "dedicatedCapacityExerciseCompleted": false,
+    "globalSshConfigChanged": false,
+    "otherServerConfigurationChanged": false,
+    "notebookPublicKeyAdded": true,
+    "notebookPrivateKeyAuthenticationVerifiedWithoutAgent": true,
+    "existingServerKeysPreserved": true,
+    "privateKeyContentsTransferred": false
+  },
+  "historicalRecordOnly": true,
+  "releaseEligible": false
+}

@@ -111,3 +111,12 @@ stehen noch aus. Die Produktionssperren bleiben erhalten.
 
 Der nachfolgende [Aktivierungsentwurf](nuget-activation-review.md) dokumentiert die
 neuen geschützten Prüfläufe, die vorbereiteten Änderungen und die offenen Merge-Bedingungen.
+
+## Aktueller Abnahmestand vom 31. Oktober 2026
+
+NuGet-Identität und geschützter OIDC-Anmeldetest ohne Upload sowie der gehostete
+Main-Coverage-Fehler-/Recovery-Drill sind inzwischen erfolgreich abgeschlossen.
+Die obigen früheren Planungsstände bleiben als Historie erhalten. Maßgeblich für
+Ergebnisse, Grenzen und verbleibende Punkte ist das
+[aktuelle Betreiberprotokoll](nuget-operator-acceptance.md). Beide Produktionsjobs
+bleiben auf main gesperrt; der Aktivierungsreview ist ungemergt. Keine Veröffentlichung.
