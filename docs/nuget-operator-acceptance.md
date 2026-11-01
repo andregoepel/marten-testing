@@ -101,3 +101,11 @@ behoben und niemals durch eine gelockerte Policy.
 Die nachfolgende [Status-Konsistenzkorrektur](sonar-status-consistency.md) hält die
 unerwartet fehlgeschlagenen positiven Main-Läufe und den neuen exakt geprüften
 Verifier-Pin fest. Der Coverage-/Recovery-Drill ist deshalb noch nicht ausgeführt.
+
+## Standby-Archivierungsreview vom 1. November 2026
+
+Das lokale Archiv der verfügbaren Originalbelege ist erstellt und vollständig auf
+Datei-/GitHub-Digests geprüft. Historische fehlende Ein-Tages-ZIPs bleiben explizite
+Lücken. [Archivprotokoll](nuget-evidence-archive.md) und versionierter Archivrecord
+halten Ziel und Grenzen fest. Dieser getrennte Retention-Review erhält beide
+unbedingten Produktionssperren. Er führt keine Aktivierung oder Veröffentlichung aus.
