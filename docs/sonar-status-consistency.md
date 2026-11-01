@@ -52,3 +52,12 @@ Lokale gemeinsame Validierung mit SDK 10.0.402: 1.098 Offline-Tests, Build ohne
 Warnungen, Formatcheck, 31 Kapazitäts-Vertragsfälle und vollständiger Vulnerability-
 Audit ohne bekannte Befunde erfolgreich. Die Consumer-PR-CI prüft die neue Pin-Bindung;
 eine erfolgreiche PR-CI ist noch kein neuer geschützter Main-Nachweis.
+
+## Aktueller Abnahmestand vom 31. Oktober 2026
+
+NuGet-Identität und geschützter OIDC-Anmeldetest ohne Upload sowie der gehostete
+Main-Coverage-Fehler-/Recovery-Drill sind inzwischen erfolgreich abgeschlossen.
+Die obigen früheren Planungsstände bleiben als Historie erhalten. Maßgeblich für
+Ergebnisse, Grenzen und verbleibende Punkte ist das
+[aktuelle Betreiberprotokoll](nuget-operator-acceptance.md). Beide Produktionsjobs
+bleiben auf main gesperrt; der Aktivierungsreview ist ungemergt. Keine Veröffentlichung.

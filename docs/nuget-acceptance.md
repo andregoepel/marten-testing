@@ -91,3 +91,21 @@ restore the legacy publisher or retry an ambiguous upload without reconciliation
 See [the protected token-check plan](sonar-production-token-check.md) for the
 review-only diagnostic workflow, pending hosted runs and temporary preparation-
 environment main-ref allowance with mandatory cleanup. This does not enable uploads.
+
+## Aktueller Abnahmestand vom 31. Oktober 2026
+
+NuGet-Identität und geschützter OIDC-Anmeldetest ohne Upload sowie der gehostete
+Main-Coverage-Fehler-/Recovery-Drill sind inzwischen erfolgreich abgeschlossen.
+Die obigen früheren Planungsstände bleiben als Historie erhalten. Maßgeblich für
+Ergebnisse, Grenzen und verbleibende Punkte ist das
+[aktuelle Betreiberprotokoll](nuget-operator-acceptance.md). Beide Produktionsjobs
+bleiben auf main gesperrt; der Aktivierungsreview ist ungemergt. Keine Veröffentlichung.
+
+## Archivierungsfortschritt vom 1. November 2026
+
+Das gewählte lokale unabhängige Archiv der verfügbaren Originalbelege ist erstellt
+und über Original-Digests und einen erneut geprüften Hash-Index verifiziert.
+Die fehlenden historischen Ein-Tages-Archive bleiben eine ausdrücklich dokumentierte
+Lücke. Die vorgesehene Aufbewahrung wird im Review auf 90 Tage abgestimmt; Gültigkeit
+und Sicherheitsprüfungen bleiben unverändert. Maßgeblich sind
+[Archivprotokoll und Grenzen](nuget-evidence-archive.md). Keine Veröffentlichung.

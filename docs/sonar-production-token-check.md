@@ -86,7 +86,7 @@ für Authentifizierung, Identitäten, globale Rechte, Gruppen, Projektgrenzen,
 Transport/Redirect/JSON und Credential-Kanäle sind enthalten. Es erfolgen keine
 externen Netzwerkzugriffe. Derselbe Vertrag läuft ohne Secrets bei Pull Requests.
 
-**Status dieses PRs:** lokal geprüft; geschützte Produktions-Token-Läufe noch
+**Historischer Status vor den gehosteten Prüfläufen:** lokal geprüft; geschützte Produktions-Token-Läufe noch
 nicht ausgeführt. Die tatsächlichen Ergebnisse können erst nach Merge und
 Environment-Freigabe ergänzt werden. Dieser PR aktiviert keine Veröffentlichung.
 
@@ -105,3 +105,19 @@ tatsächlich ausgelieferten Dispatch- und Summary-Blöcke aus, einschließlich
 Original-Attempt, Workflow-/Main-Identität und Negativfällen. Ein erfolgreicher
 Fixture-Test ersetzt weiterhin nicht die echten Token-Läufe. Erst nach Merge
 der Korrektur einen neuen Lauf auf dem dann aktuellen main-Commit starten.
+
+## Geschützte Ergebnisse nach der Korrektur
+
+Die beiden echten Environment-Prüfungen sind auf dem oben verlinkten Hauptbranch
+erfolgreich abgeschlossen. Runs, Commit und Aufräumnachweis stehen im
+[Aktivierungsentwurf](nuget-activation-review.md). Der frühere Status dieses Dokuments
+beschreibt den damaligen Stand vor diesen Läufen. Dies ist keine Upload-Abnahme.
+
+## Aktueller Abnahmestand vom 31. Oktober 2026
+
+NuGet-Identität und geschützter OIDC-Anmeldetest ohne Upload sowie der gehostete
+Main-Coverage-Fehler-/Recovery-Drill sind inzwischen erfolgreich abgeschlossen.
+Die obigen früheren Planungsstände bleiben als Historie erhalten. Maßgeblich für
+Ergebnisse, Grenzen und verbleibende Punkte ist das
+[aktuelle Betreiberprotokoll](nuget-operator-acceptance.md). Beide Produktionsjobs
+bleiben auf main gesperrt; der Aktivierungsreview ist ungemergt. Keine Veröffentlichung.

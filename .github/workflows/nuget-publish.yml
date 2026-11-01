@@ -1,4 +1,4 @@
-# Standby: job is unconditionally disabled. Activation requires reviewed registration and policy.
+# Production publication requires successful preparation and protected environment approval.
 # Registered preparation workflow: 395675685 (NuGet preparation).
 name: NuGet verified publication
 
@@ -65,7 +65,6 @@ jobs:
 
   publish:
     if: >-
-      false &&
       github.repository == 'andregoepel/marten-testing' &&
       github.event_name == 'workflow_run' && github.event.workflow_run.workflow_id == 395675685 &&
       github.event.workflow_run.event == 'push' && github.event.workflow_run.conclusion == 'success' &&

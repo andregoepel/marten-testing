@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-11-01T10:43:06.0055310Z",
+  "repository": "andregoepel/marten-testing",
+  "checkedMain": "0d9b8dcd55bef791a350a5194d64cac10a649684",
+  "reviewedHeadBeforeDocumentation": "f65bf534f023f208a78c66742daa970477c8356c",
+  "productionJobsEnabledOnCheckedMain": false,
+  "environments": [
+    {
+      "name": "sonar-nuget-prepare",
+      "refType": "tag",
+      "pattern": "v*",
+      "reviewerId": 22834588,
+      "canAdminsBypass": false,
+      "preventSelfReview": false
+    },
+    {
+      "name": "nuget-publish",
+      "refType": "branch",
+      "pattern": "main",
+      "reviewerId": 22834588,
+      "canAdminsBypass": false,
+      "preventSelfReview": false
+    }
+  ],
+  "tagRulesetId": 26220297,
+  "immutableTagsVerifiedReadOnly": true,
+  "historicalNugetPolicyInventoryDate": "2026-10-30",
+  "nugetPolicyRecheckedInThisPass": false,
+  "mainEvidence": {
+    "tests": 5,
+    "gate": "OK",
+    "releaseEligible": false,
+    "analysisId": "a41ffe45-7516-4cb5-962f-b51e19bfb2de",
+    "coverage": "100.0",
+    "sonar": 41297116367,
+    "expiresAt": "2026-11-01T12:23:59.2389417+01:00",
+    "ci": 41297046396,
+    "analysisReady": true,
+    "originalArtifactRetentionDays": 90,
+    "attempt": 1,
+    "repository": "andregoepel/marten-testing",
+    "taskId": "be2fe191-46fa-4d38-91b2-77588fc7bf1b",
+    "issuedAt": "2026-11-01T11:23:59.2389417+01:00",
+    "baseline": "e28d64b2-de9e-4bdf-b5c3-2bc47b15411b",
+    "main": "0d9b8dcd55bef791a350a5194d64cac10a649684"
+  },
+  "archive": {
+    "capture": "2026-11-01T102915Z",
+    "manifestSha256": "b4fbfec14a15c0c9d7a6d54ad2e846f90c6bf5caca317af4c7a39e7a452abcbf",
+    "parentCapture": "2026-11-01T095735Z",
+    "parentManifestSha256": "27fbb2187bad0f65836003602d9ba40fec904d8365441d8f529c1e37327296c2",
+    "historicalMissingOriginalsRemain": true,
+    "automaticFutureCapture": false,
+    "offsiteBackup": false
+  },
+  "packageUploadPerformed": false,
+  "releaseTagCreated": false,
+  "activationMerged": false,
+  "remaining": [
+    "Separate activation merge decision",
+    "Fresh exact-main CI and protected Sonar after activation merge",
+    "Separate release version/commit/tag/upload approval",
+    "Hosted annotated release-tag and remote package/symbol acceptance"
+  ]
+}
