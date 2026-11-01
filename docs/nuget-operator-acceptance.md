@@ -1,7 +1,7 @@
 # Betreiberabnahme vor NuGet-Aktivierung
 
-Tracking: [Issue #38](https://github.com/andregoepel/marten-testing/issues/38). Stand: 31. Oktober 2026.
-Aktueller sauberer main nach Recovery: 7fb47734f754054dc1f9c1253bb0e8a2d8e46885.
+Tracking: [Issue #38](https://github.com/andregoepel/marten-testing/issues/38). Stand: 1. November 2026.
+Sauberer Recovery-main vom 31. Oktober: 7fb47734f754054dc1f9c1253bb0e8a2d8e46885.
 
 ## Abgeschlossen
 
@@ -91,6 +91,26 @@ Keine Pakete veröffentlicht, keine Release-Tags angelegt; Tracking-Issue bleibt
 Das gewählte lokale unabhängige Archiv der verfügbaren Originalbelege ist erstellt
 und über Original-Digests und einen erneut geprüften Hash-Index verifiziert.
 Die fehlenden historischen Ein-Tages-Archive bleiben eine ausdrücklich dokumentierte
-Lücke. Die vorgesehene Aufbewahrung wird im Review auf 90 Tage abgestimmt; Gültigkeit
+Lücke. Die separat gemergte Aufbewahrung beträgt inzwischen 90 Tage; Gültigkeit
 und Sicherheitsprüfungen bleiben unverändert. Maßgeblich sind
 [Archivprotokoll und Grenzen](nuget-evidence-archive.md). Keine Veröffentlichung.
+
+## Aktualisierte Aktivierungsvorprüfung vom 1. November 2026
+
+Aktueller geprüfter main: 0d9b8dcd55bef791a350a5194d64cac10a649684. [CI 41297046396](https://github.com/andregoepel/marten-testing/actions/runs/41297046396)
+und [geschützter Sonar-Lauf 41297116367](https://github.com/andregoepel/marten-testing/actions/runs/41297116367)
+sind erfolgreich: 5 Tests, Coverage 100.0 %, Gate OK,
+unveränderte Baseline, analysisReady=true und releaseEligible=false. Dies ist ein
+commitgebundener Abnahmebeleg; die ursprüngliche Receipt-Ablaufzeit bleibt erhalten.
+
+Produktions-Environments und unveränderliche v*-Regeln wurden erneut lesend geprüft:
+Preparation nur Tags v*, Publisher nur main, Reviewer 22834588 und kein Admin-Bypass.
+Keine temporäre main-Freigabe ist vorhanden. Die NuGet-Policy-/Kontoinventur bleibt
+der historische Nachweis vom 30. Oktober und wurde hier nicht erneut im Konto geprüft.
+Die [sanitisierte Vorprüfung](../scripts/sonar/publication/production-controls/activation-preflight-2026-11-01.json)
+verknüpft Schutzregeln, aktuelle Main-Nachweise und das erweiterte lokale Archiv.
+
+Nach einem separat freigegebenen Aktivierungs-Merge sind neue CI-/Sonar-Nachweise
+für dessen exakten main nötig. Release-Version, Commit, Tag und Upload bleiben
+separat freizugeben; echte Paket-/Symbol-Annahme und gehostete annotierte Release-Tag-
+Abnahme sind weiterhin offen. Dieser Review-Schritt führt keinen Merge, Tag oder Upload aus.

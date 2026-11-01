@@ -36,13 +36,19 @@ latest-verified.json verweist ausschließlich auf den vollständig erneut geprü
 
 ## Künftige Aufbewahrung und Ablauf
 
-Dieser getrennte Standby-Aufbewahrungsreview hält Batch und Origin künftig 90 Tage vor, passend zu
-Intent und Outcomes. Der LF-normalisierte Preparation-Hash wird neu gebunden.
-[workflows PR #38](https://github.com/andregoepel/workflows/pull/38) bewahrt auch die
-sanitisierten Sonar-Diagnose- und Readiness-ZIPs 90 Tage auf. Er muss zuerst per
-Merge-Commit reviewt/übernommen werden. Der Consumer bindet dafür den unveränderlichen
-Producer-/Tool-Pin 2bcbb5b97c3e6a3f28ab5f054d6bbbcea8026f7a. Der bestehende
-Veröffentlichungs-Verifier-Pin bleibt unverändert; sein C#-Code ist identisch.
+Die Aufbewahrungs-PRs sind am 1. November 2026 gemergt. Batch, Origin, Intent und
+Outcomes sind auf 90 Tage eingestellt. Der gemeinsame Producer aus
+[workflows PR #38](https://github.com/andregoepel/workflows/pull/38) bewahrt auch
+Sonar-Diagnose und Readiness 90 Tage auf; die neuen Original-ZIPs sind tatsächlich
+bis 30. Januar 2027 verfügbar. Producer-/Tool-Pin:
+2bcbb5b97c3e6a3f28ab5f054d6bbbcea8026f7a. Der Veröffentlichungs-Verifier bleibt
+unverändert; sein C#-Code ist identisch.
+
+Das inkrementelle lokale Archiv .sonar-evidence/2026-11-01T102915Z ergänzt für
+beide Repositories vier neue Original-ZIPs und 23 geprüfte Belegdateien. Sein
+Manifest-SHA-256 ist b4fbfec14a15c0c9d7a6d54ad2e846f90c6bf5caca317af4c7a39e7a452abcbf.
+Es verweist auf den oben genannten vollständigen Ausgangs-Capture; dessen
+historische Lücken bleiben bestehen. latest-verified.json verweist auf diese Kette.
 
 Die Speicherdauer ändert keine Receipt-Gültigkeit, CI-Altersgrenze, Baseline, Gates,
 Quelle, Attempts oder Release-Berechtigung. Historische ZIPs/Manifeste autorisieren
