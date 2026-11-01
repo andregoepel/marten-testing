@@ -52,3 +52,7 @@ Die fehlenden historischen Ein-Tages-Archive bleiben eine ausdrücklich dokument
 Lücke. Die vorgesehene Aufbewahrung wird im Review auf 90 Tage abgestimmt; Gültigkeit
 und Sicherheitsprüfungen bleiben unverändert. Maßgeblich sind
 [Archivprotokoll und Grenzen](nuget-evidence-archive.md). Keine Veröffentlichung.
+
+Die getrennten Standby-Aufbewahrungsreviews sind am 1. November 2026 genehmigt
+gemergt worden; dieser Aktivierungsentwurf ist auf den neuen main abgeglichen.
+Die Publishing-Aktivierung selbst bleibt weiterhin ungemergt.

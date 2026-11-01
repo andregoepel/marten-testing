@@ -36,7 +36,7 @@ latest-verified.json verweist ausschließlich auf den vollständig erneut geprü
 
 ## Künftige Aufbewahrung und Ablauf
 
-Dieser Aktivierungsreview hält Batch und Origin künftig 90 Tage vor, passend zu
+Dieser getrennte Standby-Aufbewahrungsreview hält Batch und Origin künftig 90 Tage vor, passend zu
 Intent und Outcomes. Der LF-normalisierte Preparation-Hash wird neu gebunden.
 [workflows PR #38](https://github.com/andregoepel/workflows/pull/38) bewahrt auch die
 sanitisierten Sonar-Diagnose- und Readiness-ZIPs 90 Tage auf. Er muss zuerst per
