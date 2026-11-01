@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "repository": "andregoepel/marten-testing",
+  "recordedAt": "2026-11-01T10:04:58.5507876Z",
+  "archiveKind": "manual local independent copy of available original evidence",
+  "workspaceRelativeCapture": ".sonar-evidence/2026-11-01T095735Z",
+  "manifestFile": "manifest.json",
+  "manifestSha256": "27fbb2187bad0f65836003602d9ba40fec904d8365441d8f529c1e37327296c2",
+  "verifiedFiles": 97,
+  "verifiedOriginalZipCount": 18,
+  "originalGithubDigestsVerified": true,
+  "localReReadVerification": true,
+  "allHistoricalOriginalsAvailable": false,
+  "historicalGaps": [
+    {
+      "reason": "One-day original preparation archives expired before this capture",
+      "kinds": [
+        "batch",
+        "origin"
+      ],
+      "runId": 40185013636
+    },
+    {
+      "reason": "One-day readiness archive expired; analysis summary retained",
+      "kinds": [
+        "original readiness ZIP"
+      ],
+      "runId": 40184021316
+    }
+  ],
+  "futureRetentionDays": 90,
+  "producerPin": "2bcbb5b97c3e6a3f28ab5f054d6bbbcea8026f7a",
+  "verifierPinUnchanged": "ebc566218aaa60684d23483c63f974e222d8f7f2",
+  "sharedReview": "https://github.com/andregoepel/workflows/pull/38",
+  "automatedFutureCapture": false,
+  "offSiteBackup": false,
+  "packageUploadPerformed": false,
+  "releaseEligible": false,
+  "historicalRecordOnly": true
+}

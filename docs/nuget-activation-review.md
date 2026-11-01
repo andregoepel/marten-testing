@@ -32,7 +32,7 @@ er würde künftige passende Tag-Ereignisse für den Produktionsablauf zulassen.
 [Betreiberprotokoll](nuget-operator-acceptance.md) und
 [sanitisierte Abnahme](../scripts/sonar/publication/production-controls/operator-acceptance-2026-10-31.json)
 enthalten die Commit-/Task-/Analysis-IDs, Grenzen und noch offenen Punkte. Dazu gehören
-externe Archivierung sowie
+das inzwischen verifizierte lokale Archiv mit ausdrücklich verbleibenden historischen Lücken sowie
 separat freizugebende echte Paket-/Symbol-Annahme und annotierte Release-Tag-Abnahme.
 Keine dieser Grenzen wird durch eine erfolgreiche PR-CI oder die historischen
 Readiness-Dateien aufgehoben. Vor Aktivierung Live-Kontrollen erneut lesen; nach
@@ -43,3 +43,12 @@ Der autorisierte Ressourcencheck ist als unauffällige Momentaufnahme nach den S
 abgeschlossen; Details und Grenzen stehen im Betreiberprotokoll. Ein dedizierter
 Kapazitäts-/Lastspitzentest wird dadurch nicht behauptet. Der neue Notebook-SSH-Zugang
 wurde mit erhaltenen bestehenden Server-Schlüsseln separat verifiziert.
+
+## Archivierungsfortschritt vom 1. November 2026
+
+Das gewählte lokale unabhängige Archiv der verfügbaren Originalbelege ist erstellt
+und über Original-Digests und einen erneut geprüften Hash-Index verifiziert.
+Die fehlenden historischen Ein-Tages-Archive bleiben eine ausdrücklich dokumentierte
+Lücke. Die vorgesehene Aufbewahrung wird im Review auf 90 Tage abgestimmt; Gültigkeit
+und Sicherheitsprüfungen bleiben unverändert. Maßgeblich sind
+[Archivprotokoll und Grenzen](nuget-evidence-archive.md). Keine Veröffentlichung.

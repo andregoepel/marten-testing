@@ -71,7 +71,9 @@ vor den erfolgreichen Läufen verlangt. Keine Prüfanforderung wurde entfernt.
 - Tatsächlicher Paket-/Symbol-Upload und entfernte Annahme sowie gehostetes Verhalten
   annotierter Release-Tags wurden unter dem Veröffentlichungsverbot nicht getestet.
   Der rote Main-Drill beweist die Readiness-Ablehnung, keinen realen NuGet-Uploadversuch.
-- Externe Archivierung bleibt unkonfiguriert. Sanitisierte Belege liegen im Review und
+- Am 31. Oktober war die unabhängige Archivierung noch unkonfiguriert. Der unten
+  ergänzte Stand vom 1. November dokumentiert die inzwischen gewählte lokale Kopie.
+  Die historischen Belege liegen zusätzlich im Review und
   in den jeweiligen Actions-Artefakten. Keine Token-Werte wurden aufgenommen.
 
 ## Aktivierungsreview
@@ -83,3 +85,12 @@ Release müssen die noch offenen Punkte bewertet, ein Aktivierungs-Merge separat
 freigegeben und neue erfolgreiche CI-/Sonar-Nachweise für genau dessen main-Commit
 verlangt werden. Version, Commit und Release-Tag benötigen eine eigene Freigabe.
 Keine Pakete veröffentlicht, keine Release-Tags angelegt; Tracking-Issue bleibt offen.
+
+## Archivierungsfortschritt vom 1. November 2026
+
+Das gewählte lokale unabhängige Archiv der verfügbaren Originalbelege ist erstellt
+und über Original-Digests und einen erneut geprüften Hash-Index verifiziert.
+Die fehlenden historischen Ein-Tages-Archive bleiben eine ausdrücklich dokumentierte
+Lücke. Die vorgesehene Aufbewahrung wird im Review auf 90 Tage abgestimmt; Gültigkeit
+und Sicherheitsprüfungen bleiben unverändert. Maßgeblich sind
+[Archivprotokoll und Grenzen](nuget-evidence-archive.md). Keine Veröffentlichung.
