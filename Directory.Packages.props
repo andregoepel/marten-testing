@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup Label="Marten">
-    <PackageVersion Include="Marten" Version="9.50.3" />
+    <PackageVersion Include="Marten" Version="9.56.0" />
   </ItemGroup>
 
   <ItemGroup Label="Testing">
